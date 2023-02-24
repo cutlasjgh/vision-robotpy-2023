@@ -1,3 +1,6 @@
+
+this file mostly a rehash of readme.md
+
 mkdir robotpy
 cd robotpy
 conda create -n robotpy python=3.8

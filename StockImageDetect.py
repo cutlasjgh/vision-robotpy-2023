@@ -9,8 +9,11 @@ import pytest
 # good references 
 # code about 1/3 down https://www.chiefdelphi.com/t/wpilib-apriltagdetector-sample-code/421411/12
 # code about 2/3 down https://www.chiefdelphi.com/t/using-apriltag-on-raspberry-pi/423250/16
+# has calibrat values for HD3000 https://www.chiefdelphi.com/t/wpilib-apriltagdetector-sample-code/421411/12 
 # uses camera server https://github.com/Cyberhawks706/Vision23/blob/eeea3b7f3f9f550e3b7a98eb0e2f092003e35b6c/main.py 
 # might help with angle?  https://github.com/WHEARobotics/FRC2023/blob/62359c466a833b51f44f20dab517374416b01e6b/src/Vision/02-CalculateAngle/CalculateAngle.py
+# nice: WPIlib examples https://github.com/wpilibsuite/allwpilib/tree/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/apriltagsvision
+
 
 #pose3d is position in meters https://robotpy.readthedocs.io/projects/wpimath/en/latest/wpimath.geometry/Pose3d.html#wpimath.geometry.Pose3d
 #rotation3d is roll: radians, pitch: radians, yaw: radians per https://robotpy.readthedocs.io/projects/wpimath/en/latest/wpimath.geometry/Rotation3d.html#wpimath.geometry.Rotation3d
@@ -20,7 +23,18 @@ import pytest
 # Returns the counterclockwise rotation angle around the Y axis (pitch).
 # Z()→ radians
 # Returns the counterclockwise rotation angle around the Z axis (yaw).
+# more on WPIlib coord system:  https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/coordinate-systems.html
+# yaw is positive in counterclockwise (view from top of robot)
+# pose https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/pose.html
+# transformations https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/transformations.html
 
+# TODO 
+# use HD3000 calibration values
+# set resolution of imag to 640x400 as that's standard i believe (And calibration valid for that resolution?)
+
+colorgreen = (0, 255, 0)
+colorred = (0, 0, 255)
+colorblue = (255,0,0)
 
 def get_apriltag_detector_and_estimator(frame_size):
     detector = robotpy_apriltag.AprilTagDetector()
@@ -53,8 +67,8 @@ def draw_overlay(frame):
     return frame
 
 def process_apriltag(estimator, tag):
-    tag_id = tag.getId()
-    center = tag.getCenter()
+    tag_id = tag.getId() # believe this is actual Tag ID (number)
+    center = tag.getCenter()   # believe this is center in pixels
     hamming = tag.getHamming()
     decision_margin = tag.getDecisionMargin()
     print("Hamming for id {} is {} with decision margin {}".format(tag_id, hamming, decision_margin))
@@ -73,7 +87,11 @@ def draw_tag(frame, result):
     # print()
 
     #msg = 'whatever'
-    cv2.putText(frame, msg, (100, 50 * 1), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+    #stack full text based on tagid modulus 4
+    #cv2.putText(frame, msg, (100, 50 * 1), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+    cv2.putText(frame, msg, (100, 50 * 1 + ((80*tag_id)//4)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+    # output just tag id near tag detection
+    cv2.putText(frame, str(tag_id) , (int(center.x+28), int(center.y-16)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     return frame
 
 def detect_and_process_apriltag(frame, detector, estimator):
@@ -158,7 +176,7 @@ def main():
     tag2_z_inches = 0.462788 * 39.3701 
 
 
-    frame = cv2.imread(filename6)
+    frame = cv2.imread(filename5)
     assert frame is not None
     # initialize detector and pose estimator
     detector, estimator = get_apriltag_detector_and_estimator((640,480))

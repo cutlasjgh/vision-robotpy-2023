@@ -5,6 +5,8 @@
 not the correct family of images.
 Good images found at field resource page or photonvision github
 zip file of vision images https://www.firstinspires.org/robotics/frc/playing-field
+
+This might not work, needs removal of tag36h11 as we dont use that in 2023 FRC game
 '''
 
 
