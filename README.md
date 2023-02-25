@@ -9,13 +9,21 @@ Some thoughts on Field
 WPIlib has coordinate system:
 https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/coordinate-systems.html
 WPIlib rotations are positive in counter clockwise (looking down on robot).
-
+that page gives: 
+Field Coordinate System
+The field coordinate system (or global coordinate system) is an absolute coordinate system where a point on the field is designated as the origin. Positive 
+ (theta) is in the counter-clockwise direction, and the positive x-axis points away from your alliance’s driver station wall, and the positive y-axis is perpendicular and to the left of the positive x-axis.
+?? I actually think FCS is absolute, blue wall is near origin, and redwall is about 20 meters in positive X direction. CORRECT This if found different. One factor that agrees is the photonvision botpose which is compat with WPIlib (not all of photonvision coords are though.)
+Robot Coordinate System
+The robot coordinate system (or local coordinate system) is a relative coordinate system where the robot is the origin. The direction the robot is facing is the positive x axis, and the positive y axis is perpendicular, to the left of the robot. Positive 
+ is counter-clockwise.
+Note WPILib’s Gyro class is clockwise-positive, so you have to invert the reading in order to get the rotation with either coordinate system.
 
 WPIlib coord system agrees with:
 Conventions used:
-North side of field is Audience side.
+North side of field is Audience side. +Y direction is from Scoring toward Audience 
 South side is Scoring side of field. 
-East side has the Red Alliance drive stations.
+East side has the Red Alliance drive stations. +X is toward Red alliance from Blue Alliance side
 West side has the Blue Alliance drive stations.
 origin 0,0 of the WPILib field 2023-chargedup.json file is at bottom left of this, aka South West corner.
 
@@ -36,16 +44,50 @@ ID 1,2,3,4 are on Red drive station side,  1,2,3,4 right to left.
 ID 5,6,7,8 are on blue drive station side,  5,6,7,8 right to left.
 This means tag 8 and tag 1 are on same side of field, the scoring table side.
 And Tags 4 and 5 are on same side of field, the audience side of field.
+Tags 1,2,3,6,7,8 are approx 15.1" off ground to bottom of 6" tag, so center is 18.1" above floor.
+Tags 4 and 5 are approx 24.4" off ground to bottom of 6" tag, so center of tag is 27.4" above floor.
 
 Manual shows that the april tags near double stations are in the middle of the 8ft double substations.
 So that Means Blue Tag ID4 is 4 ft from left side of field.
 Manual shows that ID tag 1 is about xx from right side of field, based on width of one outer grid. 
 NOTE outer grids are assymetrical, tag is NOT in the middle of outer grids.
 
+# Coord system confusion
 
-#references
+remember pose of object is camera relative at first until it's been transformed / transposed it to field, as i undestand.
+coords of pose are Right hand rule, Z out of camera toward tag, X is to right of camera view, Y is downward, until pose of tag turned into a useful translation.
+And Y angle is actually the angle to the tag from the camera. This could be turned into YAW easily.
+
+It seems Field Coordinates do flip for red team per:
+https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/coordinate-systems.html 
+See the jpg image that shows XY axis in blue and XY axis in Red
+
+Photonvision in comparison sets origin 0,0,0 at center of field:https://docs.limelightvision.io/en/latest/coordinate_systems_fiducials.html#field-space
+Photon vision uses +X toward Red team I think, and +Y toward Audience, +Z is toward sky
+Photon vision has botpose which actually provides WPILib-compatible coordinates!
+
+
+# references
 
 https://github.com/wpilibsuite/allwpilib/tree/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/apriltagsvision
+
+# programs herein:
+
+2023-chargedup.json
+DetectAndDisplay.py
+out.jpg
+README.md
+robotpy-apriltag
+robotpy-john.txt
+StockImageDetect.py
+test_detection-mod.py
+
+# offline pictures
+
+I put images in a directory up a level, in ../images/apriltags 
+They are the 2023 FRC field images that were obtained from zip file 
+ of vision images, scroll down to WPI Photo Album section here: https://www.firstinspires.org/robotics/frc/playing-field
+ next year they might be moved to https://www.firstinspires.org/resource-library/frc/2023playingfieldarchive
 
 
 
