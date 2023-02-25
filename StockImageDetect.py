@@ -254,8 +254,8 @@ def main():
     tag2_y_inches = mToInches(2.748026)
     tag2_z_inches = mToInches(0.462788 )  
 
-    # Camera on Robot 
-    robotToCam =  Transform3d( Translation3d(0.5, 0.0, 0.5), Rotation3d(0,0,0))
+    # Camera on Robot relative to center of robot
+    robotToCam =  Transform3d( Translation3d(0.25, 0.0, 0.25), Rotation3d(0,0,0))
 
     # load json for field locations of tags so we can try to locate our camera's location
     # try:
@@ -286,8 +286,6 @@ def main():
     print("if these agree then we know how to construct pose3d's successfully")
 
 
-
-
     # get an image from file to work with:
     frame = cv2.imread(filename6)
     assert frame is not None
@@ -303,7 +301,48 @@ def main():
     print("transforms")
     # if we transform tag loc by pose first:
     #transform3d_pose = Transform3d(tag1_pose.Translation3d(),tag1_pose.Rotation3d()  )
-    #tag1_pose.TransformBy(est.pose1)
+    #posrot = pose.getRotation(); # should work
+    
+    '''
+    from:https://raceon.io/localization/
+    What we want is the position of the camera in the global frame, 
+    and we can break that into two steps. We get the location of the 
+    camera in the tag frame and combine with the location of the tag 
+    in the global frame. Both of these steps are applications of 
+    rigid-body transformations. A rigid-body transformation combines 
+    a translational transformation 
+ to translate from one frame's origin to another and a rotational 
+ transformation 
+ to rotate from one frame's coordinae axes to another. A great 
+ explanation of the theory behind this can be found here. We compose 
+ the two to take a point in Frame A and get it's location in frame B. 
+ $$^{B}p =^{B}{A}R ^{A}p + ^{B}O $$
+
+First, we need the rotation matrix R and translation vector t of 
+the camera in the tag frame. We can get these by inverting the Pose_R 
+and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
+ meaning the inverse is the same as the transpose. t is a translation 
+ vector, so its inverse just negates everything.
+    '''
+    # est.pose1 is the pose of the tag in camera frame.
+    # but we need location of camera in tag frame which is inverse of est.pose1
+    
+    # tag in camera frame rotation and translation are:
+    tag_posrot = est.pose1.rotation()
+    tag_postransl = est.pose1.translation() 
+    # camera in tag frame are found:
+    # inverse or Transpose of the rotation are same , which is what we need
+    cam_posrot = -tag_posrot # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
+    # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
+    cam_postransl = -tag_postransl
+    campose=Pose3d(cam_postransl,cam_posrot)
+    # you would send to drive estimator as: see https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
+    #m_poseEstimator.addVisionMeasurement(camPose.transformBy(Constants.kCameraToRobot).toPose2d(), imageCaptureTime)
+    # for now     
+    #campose_upright = campose.transformBy(cameraUpright))
+
+    # unofficial_tag_position = P @ Pose_R.T @ (-1 * Pose_T)
+    # global_position = R_g @ unofficial_tag_position + t_g
 
     # what if added pose (camera) to known tag location:
     #est.pose is a Transform3d
