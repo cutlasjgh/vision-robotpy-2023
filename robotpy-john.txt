@@ -45,6 +45,8 @@ PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldL
 
 camPose.transformBy(Constants.kCameraToRobot).toPose2d() #transforms camera location to robot location
 
+apriltags https://docs.wpilib.org/en/stable/docs/software/vision-processing/apriltag/apriltag-intro.html 
+
 java build field json
 https://www.chiefdelphi.com/t/tagtracker-for-apriltag-detection-and-pose-estimation/417559/12
 
@@ -63,5 +65,13 @@ photonvisionconstants https://github.com/PhotonVision/photonvision/blob/master/p
 
 love this explanation https://raceon.io/localization/ 
 
+WPIlib https://github.com/wpilibsuite/allwpilib
+C++ Wpilib geometry
+https://github.com/wpilibsuite/allwpilib/tree/main/wpimath/src/main/native/cpp/geometry
+https://github.com/wpilibsuite/allwpilib/blob/main/wpimath/src/main/native/cpp/geometry/Pose3d.cpp
+https://github.com/wpilibsuite/allwpilib/blob/main/wpimath/src/main/native/cpp/geometry/CoordinateAxis.cpp
+more https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_april_tag_field_layout.html 
+
+Photon vision stuff https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
 
 
