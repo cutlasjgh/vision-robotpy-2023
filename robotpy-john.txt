@@ -64,6 +64,7 @@ good paper but older https://ligerbots.org/docs/whitepapers/LigerBots_Vision_Whi
 photonvisionconstants https://github.com/PhotonVision/photonvision/blob/master/photonlib-java-examples/simposeest/src/main/java/frc/robot/Constants.java
 
 love this explanation https://raceon.io/localization/ 
+his code https://github.com/teddylew12/race_on_cv
 
 WPIlib https://github.com/wpilibsuite/allwpilib
 C++ Wpilib geometry

@@ -169,11 +169,11 @@ def detect_and_process_apriltag(frame, detector, estimator):
        # print (result)
     return frame, tag_info
 
-# init_apriltag_detector_and_estimator  renamed init_ instead of get_
+# get_apriltag_detector_and_estimator 
 # sets up april tag family and pose estimator
 # should also apply any calibrations if possible.
 # does no actual detections or pose estimations
-def init_apriltag_detector_and_estimator(frame_size):
+def get_apriltag_detector_and_estimator(frame_size):
     detector = robotpy_apriltag.AprilTagDetector()
     # FRC 2023 uses tag16h5 (game manual 5.9.2)
     assert detector.addFamily("tag16h5")
@@ -245,6 +245,11 @@ def main():
     filename5 = '../images/AprilTags/383_60_Straight.png' 
     # tag 1 near center only
     filename6 = '../images/AprilTags/552_60_Straight.png' 
+    # some from ownimages directory (own pics )
+    filename7 = 'ownimages/capture300.jpg'
+
+    fileToUse = filename7
+
     #field coords of tag 1
     tag1_x_inches = mToInches(15.513558)   # orig in meters and multiply by 39.3701 inches per meter to get inches
     tag1_y_inches =  mToInches(1.071626 ) 
@@ -287,10 +292,10 @@ def main():
 
 
     # get an image from file to work with:
-    frame = cv2.imread(filename6)
+    frame = cv2.imread(fileToUse)
     assert frame is not None
     # initialize detector and pose estimator
-    #detector, estimator = init_apriltag_detector_and_estimator((640,480))
+    #detector, estimator = get_apriltag_detector_and_estimator((640,480))
     detector, estimator = get_apriltag_detector_and_estimator((1080,1920))
     # do actual detection of april tags
     out_frame, tag_info = detect_and_process_apriltag(frame, detector, estimator)
@@ -324,6 +329,28 @@ the camera in the tag frame. We can get these by inverting the Pose_R
 and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
  meaning the inverse is the same as the transpose. t is a translation 
  vector, so its inverse just negates everything.
+
+ In Simple steps:
+ 1.take tag pose (camera origin) and invert it so it becomes camera pose (Tag as origin).
+ (because we know where tag is on field already)
+ 2. put camera pose into proper axes, as tag/camera coord axes are not aligned with field coord axis:
+  field uses +X toward (opposite or red) alliance wall, +Y toward Audience, +Z toward sky.
+  There is a command to flip the field if you are on other alliance.
+  Camera axis when at camera origin has +Z as distance away in direction of 'look', +Y grows down into earth from camera
+  and +X is off to right of camera origin.
+  Once Inverted, Tag axis (tag is origin, pointing toward camera now):
+  Tag +Z is in direction of Camera, 
+  So we might: map Zcam to Xfield, Xcam to Yfield , -Ycam to Zfield
+  said a different way:
+  Apriltags use +Z pointing from Camera to Tag, +X points Right from Camera, +Y points down from Camera.
+  FRC field has +X pointing from Blue Alliance wall to Red Wall, +Y points from Scoring tables to Audience, +Z points to Sky.
+  So we must map tag->field as: X->Y, Y-> -Z, Z-> -X 
+  To do this properly as the Z and X tag axis might be pitched and yawed,
+  I believe we must unpitch X tag axis by -X rotation angle, and then
+  unyaw on the Y tag axis by -Y rotation angle, and only then can we know we can swap the XYZ to Y,-Z,-X coord systems.
+    There probably is a sincos matrix to do this, and i'll have to find that later.
+
+ add camera pose to tag location.
     '''
     # est.pose1 is the pose of the tag in camera frame.
     # but we need location of camera in tag frame which is inverse of est.pose1

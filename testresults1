@@ -1,5 +1,9 @@
 
-
+2/25/2023 test results. 
+Case #1 
+Camera Location: off to left of tag #8 (off field)
+Resolution 1920x1080 MS HD3000 lifecam
+Camera Calibration values 0.1524, 699.3778103158814, 677.7161226393544, 345.6059345433618, 207.12741326228522 # from wpiilbjExamples HD3000 config values
 from sidelines near # 8 , about 4m away.
 see captures 22 to 32 or so. 1080lines
 camera was about 62 inch above floor, 112 to left of tag8, 72" in front of tag8
@@ -26,6 +30,10 @@ Hamming for 8 is 0 with decision margin 132.2774658203125
 Point(x=346.04935912445615, y=256.1689299415479)
 Tag ID: 8 Pose: Transform3d(Translation3d(x=0.002397, y=0.263172, z=3.631222), Rotation3d(x=0.413870, y=-0.958534, z=-0.391922))
 
+Case #1 but resolution different
+Camera Location: off to left of tag #8 (off field)
+Resolution 640x480 MS HD3000 lifecam
+Camera Calibration values 0.1524, 699.3778103158814, 677.7161226393544, 345.6059345433618, 207.12741326228522 # from wpiilbjExamples HD3000 config values
 and at 480 lines
 images 505 to 516
 Hamming for 8 is 0 with decision margin 138.7717742919922
@@ -56,6 +64,10 @@ Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.200506, y=0.243512, z=3.740628), 
 
 
 
+Case #2 but resolution different
+Camera Location: 2 meters in front of tag#8, height is inline with tag
+Resolution 1920x1080 MS HD3000 lifecam
+Camera Calibration values 0.1524, 699.3778103158814, 677.7161226393544, 345.6059345433618, 207.12741326228522 # from wpiilbjExamples HD3000 config values
 in z plane , 2m in front of tag8, at same ht as 8.
 image 290 to 306. 1080 lines
 Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.084375, y=0.102811, z=2.119184), Rotation3d(x=-0.046635, y=-0.197323, z=-0.005838))
@@ -82,6 +94,10 @@ Hamming for 8 is 0 with decision margin 141.65306091308594
 Point(x=315.67541782148584, y=237.71556967030193)
 Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.089764, y=0.094465, z=2.098518), Rotation3d(x=0.028030, y=-0.074479, z=-0.017633))
 
+Case #2 but resolution different
+Camera Location: 2 meters in front of tag#8, height is inline with tag
+Resolution 640x480 MS HD3000 lifecam
+Camera Calibration values 0.1524, 699.3778103158814, 677.7161226393544, 345.6059345433618, 207.12741326228522 # from wpiilbjExamples HD3000 config values
 same at 480 nlines  image 450 to 460 
 Hamming for 8 is 0 with decision margin 144.3560791015625
 apriltag_pose.c:440:fix_pose_ambiguities(): Error, more than one new minimum found.
