@@ -1,0 +1,109 @@
+
+
+from sidelines near # 8 , about 4m away.
+see captures 22 to 32 or so. 1080lines
+camera was about 62 inch above floor, 112 to left of tag8, 72" in front of tag8
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.012169, y=0.362962, z=3.658718), Rotation3d(x=0.366918, y=-0.959642, z=-0.328758))
+Hamming for 8 is 0 with decision margin 112.03104400634766
+Point(x=343.45862935936606, y=273.4245155528926)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.011326, y=0.357750, z=3.653043), Rotation3d(x=0.341662, y=-0.975665, z=-0.314176))
+Hamming for 8 is 0 with decision margin 120.63475799560547
+Point(x=345.8160661484164, y=271.30181647411695)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=0.000784, y=0.346137, z=3.649470), Rotation3d(x=0.359474, y=-0.961595, z=-0.328924))
+Hamming for 8 is 0 with decision margin 132.01190185546875
+Point(x=347.51855113407686, y=269.57235381379763)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=0.010037, y=0.340921, z=3.697059), Rotation3d(x=0.351375, y=-0.933737, z=-0.335118))
+Hamming for 8 is 0 with decision margin 115.74044799804688
+Point(x=349.8356010127216, y=264.50123385986984)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=0.022284, y=0.308528, z=3.648292), Rotation3d(x=0.386793, y=-0.959604, z=-0.360953))
+Hamming for 8 is 0 with decision margin 136.3033447265625
+Point(x=347.6898293586388, y=256.5786158525261)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=0.010974, y=0.265946, z=3.657010), Rotation3d(x=0.393822, y=-0.941976, z=-0.382715))
+Hamming for 8 is 0 with decision margin 123.73727416992188
+Point(x=345.8439743113056, y=255.40450132921484)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=0.001202, y=0.260234, z=3.645445), Rotation3d(x=0.404026, y=-0.963548, z=-0.383078))
+Hamming for 8 is 0 with decision margin 132.2774658203125
+Point(x=346.04935912445615, y=256.1689299415479)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=0.002397, y=0.263172, z=3.631222), Rotation3d(x=0.413870, y=-0.958534, z=-0.391922))
+
+and at 480 lines
+images 505 to 516
+Hamming for 8 is 0 with decision margin 138.7717742919922
+Point(x=307.9834942977351, y=249.28979193014072)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.201566, y=0.233063, z=3.744530), Rotation3d(x=0.447589, y=-1.006116, z=-0.437235))
+Hamming for 8 is 0 with decision margin 137.55226135253906
+Point(x=307.7099127992506, y=249.37219531199048)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.201716, y=0.231675, z=3.727336), Rotation3d(x=0.448178, y=-1.013818, z=-0.435399))
+Hamming for 8 is 0 with decision margin 133.6177520751953
+Point(x=307.7900387957432, y=250.02033367826482)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.201208, y=0.235282, z=3.729551), Rotation3d(x=0.478499, y=-1.002898, z=-0.459515))
+Hamming for 8 is 0 with decision margin 131.3037567138672
+Point(x=307.2191764710424, y=249.74159259224223)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.204650, y=0.235026, z=3.728767), Rotation3d(x=0.443016, y=-1.005956, z=-0.430310))
+Hamming for 8 is 0 with decision margin 140.09877014160156
+Point(x=307.9382165434336, y=251.21982760429333)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.200967, y=0.242541, z=3.727777), Rotation3d(x=0.450281, y=-1.009284, z=-0.438387))
+Hamming for 8 is 0 with decision margin 137.4314422607422
+Point(x=308.037838552786, y=251.9467016990439)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.200395, y=0.246587, z=3.732653), Rotation3d(x=0.450548, y=-1.007391, z=-0.440804))
+Hamming for 8 is 0 with decision margin 134.00216674804688
+Point(x=308.14033034758694, y=251.48196818815117)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.201182, y=0.245315, z=3.749213), Rotation3d(x=0.434773, y=-1.011909, z=-0.429884))
+Hamming for 8 is 0 with decision margin 136.48316955566406
+Point(x=308.14804449127894, y=251.17908233812253)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.200506, y=0.243512, z=3.740628), Rotation3d(x=0.433337, y=-1.006747, z=-0.429911))
+
+
+
+
+in z plane , 2m in front of tag8, at same ht as 8.
+image 290 to 306. 1080 lines
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.084375, y=0.102811, z=2.119184), Rotation3d(x=-0.046635, y=-0.197323, z=-0.005838))
+Hamming for 8 is 0 with decision margin 142.28765869140625
+Point(x=317.2517762809414, y=240.10213733287702)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.084512, y=0.100958, z=2.086893), Rotation3d(x=0.011632, y=-0.256229, z=-0.015034))
+Hamming for 8 is 0 with decision margin 142.19491577148438
+Point(x=317.32862019731294, y=239.85633012982515)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.084880, y=0.101102, z=2.102078), Rotation3d(x=0.015748, y=-0.220423, z=-0.013228))
+Hamming for 8 is 0 with decision margin 143.2257080078125
+Point(x=317.3560149010636, y=239.15965604447683)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.085731, y=0.100014, z=2.119447), Rotation3d(x=-0.005584, y=0.065960, z=-0.017324))
+Hamming for 8 is 0 with decision margin 142.18423461914062
+Point(x=317.7524096165387, y=238.30452837490296)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.083102, y=0.096003, z=2.082698), Rotation3d(x=-0.079323, y=0.167605, z=-0.031411))
+Hamming for 8 is 0 with decision margin 142.86886596679688
+Point(x=317.2956454032564, y=238.21828585622345)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.083774, y=0.094653, z=2.074699), Rotation3d(x=-0.006397, y=-0.289440, z=-0.008435))
+Hamming for 8 is 0 with decision margin 142.0474090576172
+apriltag_pose.c:440:fix_pose_ambiguities(): Error, more than one new minimum found.
+Point(x=315.9544925028732, y=238.18637640116813)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.089085, y=0.096183, z=2.099869), Rotation3d(x=-0.033275, y=0.000245, z=-0.013715))
+Hamming for 8 is 0 with decision margin 141.65306091308594
+Point(x=315.67541782148584, y=237.71556967030193)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.089764, y=0.094465, z=2.098518), Rotation3d(x=0.028030, y=-0.074479, z=-0.017633))
+
+same at 480 nlines  image 450 to 460 
+Hamming for 8 is 0 with decision margin 144.3560791015625
+apriltag_pose.c:440:fix_pose_ambiguities(): Error, more than one new minimum found.
+Point(x=320.73834697771946, y=233.2063814235872)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.074055, y=0.080092, z=2.079540), Rotation3d(x=-0.052450, y=0.035711, z=-0.058948))
+Hamming for 8 is 0 with decision margin 144.22720336914062
+Point(x=322.85539820688797, y=234.76571823450865)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.067060, y=0.083853, z=2.065058), Rotation3d(x=0.020375, y=-0.158236, z=-0.045688))
+Hamming for 8 is 0 with decision margin 143.68789672851562
+Point(x=322.2349708158784, y=235.33059735907142)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.069364, y=0.085920, z=2.071490), Rotation3d(x=0.013649, y=0.071126, z=-0.043272))
+Hamming for 8 is 0 with decision margin 143.31590270996094
+Point(x=320.75496770211043, y=233.89163545237935)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.073628, y=0.081879, z=2.074717), Rotation3d(x=-0.017146, y=-0.197342, z=-0.046604))
+Hamming for 8 is 0 with decision margin 143.6870574951172
+Point(x=320.27976531769616, y=234.18121318301627)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.074624, y=0.082072, z=2.063806), Rotation3d(x=0.034607, y=-0.156480, z=-0.051834))
+Hamming for 8 is 0 with decision margin 143.6942901611328
+Point(x=320.11265879384166, y=235.25659852217362)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.075471, y=0.085635, z=2.069689), Rotation3d(x=0.022741, y=-0.056164, z=-0.046714))
+Hamming for 8 is 0 with decision margin 143.69325256347656
+Point(x=320.59257625557024, y=235.74560289937506)
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.074086, y=0.087103, z=2.066101), Rotation3d(x=0.006737, y=0.098488, z=-0.055345))
+
+

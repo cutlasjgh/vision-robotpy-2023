@@ -290,7 +290,8 @@ def main():
     frame = cv2.imread(filename6)
     assert frame is not None
     # initialize detector and pose estimator
-    detector, estimator = init_apriltag_detector_and_estimator((640,480))
+    #detector, estimator = init_apriltag_detector_and_estimator((640,480))
+    detector, estimator = get_apriltag_detector_and_estimator((1080,1920))
     # do actual detection of april tags
     out_frame, tag_info = detect_and_process_apriltag(frame, detector, estimator)
     cv2.imwrite('out.jpg', out_frame)

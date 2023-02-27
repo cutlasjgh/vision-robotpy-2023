@@ -9,6 +9,7 @@ pip3 install robotpy
 git clone https://github.com/robotpy/robotpy-apriltag.git
 cd robotpy-apriltag/
 pip3 install robotpy_apriltag
+pip3 install opencv-python
 cd tests
 pip install -r requirements.txt
 conda install -c conda-forge gcc=12.1.0
