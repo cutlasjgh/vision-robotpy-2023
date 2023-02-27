@@ -72,6 +72,11 @@ https://github.com/wpilibsuite/allwpilib/blob/main/wpimath/src/main/native/cpp/g
 https://github.com/wpilibsuite/allwpilib/blob/main/wpimath/src/main/native/cpp/geometry/CoordinateAxis.cpp
 more https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_april_tag_field_layout.html 
 
+WPIlib Apriltag C++ 
+https://github.com/wpilibsuite/allwpilib/tree/main/apriltag/src/main/native/cpp
+https://github.com/wpilibsuite/allwpilib/blob/main/apriltag/src/main/native/include/frc/apriltag/AprilTagFieldLayout.h
+
+
 Photon vision stuff https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
 
 
