@@ -43,6 +43,12 @@ PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldL
     posrot = est.pose1.rotation() 
     postransl = est.pose1.translation() 
 
+build a pose 
+    #testpose3 = Pose3d(Translation3d(5,6,7), Rotation3d(0,0,0))
+
+timestamping
+  double imageCaptureTime = Timer.getFPGATimestamp() - res.getLatencyMillis() / 1000; 
+
 camPose.transformBy(Constants.kCameraToRobot).toPose2d() #transforms camera location to robot location
 
 apriltags https://docs.wpilib.org/en/stable/docs/software/vision-processing/apriltag/apriltag-intro.html 
@@ -79,5 +85,15 @@ https://github.com/wpilibsuite/allwpilib/blob/main/apriltag/src/main/native/incl
 
 
 Photon vision stuff https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
+https://github.com/PhotonVision/photonvision/blob/master/photonlib-java-examples/src/main/java/org/photonlib/examples/simposeest/robot/DrivetrainPoseEstimator.java
+https://github.com/PhotonVision/photonvision/blob/e58c27caa28ef35891f1c8a3ec267a87622432f1/photon-core/src/main/java/org/photonvision/common/util/math/MathUtils.java#L217
+https://github.com/PhotonVision/photonvision/blob/e58c27caa28ef35891f1c8a3ec267a87622432f1/photon-lib/src/main/java/org/photonvision/PhotonPoseEstimator.java#L268
+
+
+delphi examples
+https://www.chiefdelphi.com/t/how-to-properly-perform-3d-transformations-using-wpilibmath-libraries/425357
+
+https://www.chiefdelphi.com/t/photonvision-beta-2023-apriltags/415626/106
+
 
 

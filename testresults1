@@ -6,7 +6,7 @@ Resolution 1920x1080 MS HD3000 lifecam
 Camera Calibration values 0.1524, 699.3778103158814, 677.7161226393544, 345.6059345433618, 207.12741326228522 # from wpiilbjExamples HD3000 config values
 from sidelines near # 8 , about 4m away.
 see captures 22 to 32 or so. 1080lines
-camera was about 62 inch above floor, 112 to left of tag8, 72" in front of tag8
+camera was about 62 inch above floor, 112 to left of tag8, 72" toward blue alliance from tag8
 Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.012169, y=0.362962, z=3.658718), Rotation3d(x=0.366918, y=-0.959642, z=-0.328758))
 Hamming for 8 is 0 with decision margin 112.03104400634766
 Point(x=343.45862935936606, y=273.4245155528926)
@@ -35,6 +35,7 @@ Camera Location: off to left of tag #8 (off field)
 Resolution 640x480 MS HD3000 lifecam
 Camera Calibration values 0.1524, 699.3778103158814, 677.7161226393544, 345.6059345433618, 207.12741326228522 # from wpiilbjExamples HD3000 config values
 and at 480 lines
+camera was about 62 inch above floor, 112 to left of tag8, 72" toward blue alliance from tag8
 images 505 to 516
 Hamming for 8 is 0 with decision margin 138.7717742919922
 Point(x=307.9834942977351, y=249.28979193014072)

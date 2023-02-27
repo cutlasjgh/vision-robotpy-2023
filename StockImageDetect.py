@@ -116,8 +116,8 @@ def mToInches(meters):
     return (meters *39.3701)
     
 # helper to print estimated pose for given tag
-def print_estimate(est,tag):
-    print ("for tag #",tag.getId()," :")
+def print_estimate(est,tag_id):
+    print ("for tag #",tag_id," :")
     print (f"pose1 meters x,y,z: {est.pose1.translation().x:.3f},{est.pose1.translation().y:.3f},{est.pose1.translation().z:.3f}")
     print (f"pose1 inches x,y,z: {mToInches(est.pose1.translation().x):.3f}, {mToInches(est.pose1.translation().y):.3f}, {mToInches(est.pose1.translation().z):.3f}")
     print (f"pose1 rotations x: {est.pose1.rotation().x:.3f},{est.pose1.rotation().y:.3f},{est.pose1.rotation().z:.3f}")
@@ -134,8 +134,7 @@ def process_apriltag(estimator, tag):
     # decision_margin = tag.getDecisionMargin()
     #print("Hamming for id {} is {} with decision margin {}".format(tag_id, hamming, decision_margin))
     est = estimator.estimateOrthogonalIteration(tag, DETECTION_ITERATIONS)
-    print_estimate(est,tag)
-    return tag_id, est.pose1, center
+    return tag_id, est, center
 
 # draw_details will draw to human info to output image
 def draw_details(frame, result):
@@ -155,6 +154,7 @@ def draw_details(frame, result):
     return frame
 
 # do detection of apriltags and paint details onto output image for human (not needed if during gameplay)
+# gong to do this inline instead as function for now
 def detect_and_process_apriltag(frame, detector, estimator):
     assert frame is not None
     # Convert the frame to grayscale
@@ -167,7 +167,9 @@ def detect_and_process_apriltag(frame, detector, estimator):
     for result in results:
         frame = draw_details(frame, result) # might not want to do if during real game
        # print (result)
-    return frame, tag_info
+    # once all results written, write the image to file for human (or send to drivestation?)
+    cv2.imwrite('out.jpg', frame)
+    return frame, results # was frame , tag_info
 
 # get_apriltag_detector_and_estimator 
 # sets up april tag family and pose estimator
@@ -245,21 +247,23 @@ def main():
     filename5 = '../images/AprilTags/383_60_Straight.png' 
     # tag 1 near center only
     filename6 = '../images/AprilTags/552_60_Straight.png' 
-    # some from ownimages directory (own pics )
+    # some from ownimages(own pics dir) approx straight on, 2m away from tag 8. 1080resolution
     filename7 = 'ownimages/capture300.jpg'
+    # some from ownimages(own pics dir) image taken when offfield to left of tag 8, about 4m away. 1080resolution
+    filename8 = 'ownimages/capture25.jpg'
 
     fileToUse = filename7
 
-    #field coords of tag 1
-    tag1_x_inches = mToInches(15.513558)   # orig in meters and multiply by 39.3701 inches per meter to get inches
-    tag1_y_inches =  mToInches(1.071626 ) 
-    tag1_z_inches = mToInches(0.462788 ) 
+    #field coords of tag 1 - we can get from json , so dont hardcode
+    # tag1_x_inches = mToInches(15.513558)   # orig in meters and multiply by 39.3701 inches per meter to get inches
+    # tag1_y_inches =  mToInches(1.071626 ) 
+    # tag1_z_inches = mToInches(0.462788 ) 
     #field coords of tag 2
-    tag2_x_inches = mToInches(15.513558)    # orig in meters and multiply by 39.3701 inches per meter to get inches
-    tag2_y_inches = mToInches(2.748026)
-    tag2_z_inches = mToInches(0.462788 )  
+    # tag2_x_inches = mToInches(15.513558)    # orig in meters and multiply by 39.3701 inches per meter to get inches
+    # tag2_y_inches = mToInches(2.748026)
+    # tag2_z_inches = mToInches(0.462788 )  
 
-    # Camera on Robot relative to center of robot
+    # Camera on Robot relative to center of robot - values are not correct yet, do actual measure on bot.
     robotToCam =  Transform3d( Translation3d(0.25, 0.0, 0.25), Rotation3d(0,0,0))
 
     # load json for field locations of tags so we can try to locate our camera's location
@@ -274,11 +278,8 @@ def main():
     #findTagInfoFromJSON(fieldjson,1)
     ourfield = robotpy_apriltag.AprilTagFieldLayout(r'2023-chargedup.json')
     #robotpy_apriltag.AprilTagFieldLayout(robotpy_apriltag.AprilTagFieldLayout.k2023ChargedUp).getTagPose(1)
-    # gets tag pose from json:
-    tag1_pose = ourfield.getTagPose(1)  
-    print(f"json file says tag1 is at {tag1_pose}")
     #tag1_x = tag1_pose.X()
-    print ("actual field location of tag 1 x y z in inches from json known to be: \n\t",mToInches(tag1_pose.X()),", ",mToInches(tag1_pose.Y()),", ",mToInches(tag1_pose.Z())," ")
+    #print ("actual field location of tag 1 x y z in inches from json known to be: \n\t",mToInches(tag1_pose.X()),", ",mToInches(tag1_pose.Y()),", ",mToInches(tag1_pose.Z())," ")
     
     # rotat1 = Rotation3d(0,0,0)
     # translat1 = Translation3d(5,6,7)
@@ -286,9 +287,9 @@ def main():
     # testtag2 = Pose3d(Translation3d(5,6,7), Rotation3d(0,0,0))
     # print(f"testtag {testtag}")
     # print(f"testtag2 {testtag2}")
-    tag1location_hardcoded = Pose3d(Translation3d(15.51,1.071626,0.4627), Rotation3d(	Quaternion (0,0,0,1) ))
-    print(f"tag 1 loc hardcoded: {tag1location_hardcoded}")
-    print("if these agree then we know how to construct pose3d's successfully")
+    # tag1location_hardcoded = Pose3d(Translation3d(15.51,1.071626,0.4627), Rotation3d(	Quaternion (0,0,0,1) ))
+    # print(f"tag 1 loc hardcoded: {tag1location_hardcoded}")
+    # print("if these agree then we know how to construct pose3d's successfully")
 
 
     # get an image from file to work with:
@@ -298,13 +299,50 @@ def main():
     #detector, estimator = get_apriltag_detector_and_estimator((640,480))
     detector, estimator = get_apriltag_detector_and_estimator((1080,1920))
     # do actual detection of april tags
-    out_frame, tag_info = detect_and_process_apriltag(frame, detector, estimator)
-    cv2.imwrite('out.jpg', out_frame)
+    # used call before but putting inline for development reasons
+    # out_frame, tag_info = detect_and_process_apriltag(frame, detector, estimator)
+
+    # assert we have file or image to process - probably best to replace with try except 
+    assert frame is not None
+    # Convert the frame to grayscale
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # Detect apriltag
+    tag_info = detector.detect(gray)
+    filter_tags = [tag for tag in tag_info if tag.getDecisionMargin() > DETECTION_MARGIN_THRESHOLD]
+    results = [ process_apriltag(estimator, tag) for tag in filter_tags ]
+    # Note that results will be empty if no apriltag is detected
+    for result in results:
+        frame = draw_details(frame, result) # might not want to do if during real game
+        # print (result)
+        tag_id, est, center = result
+        print_estimate(est,tag_id)
+    
+        # est = estimator.estimateOrthogonalIteration(tag_info[tagOfInterest], DETECTION_ITERATIONS)
+        # tag in camera frame CamToTag rotation and translation are:
+        print(f"tag {tag_id} pose1 from cam is {est.pose1}")
+        print(f"tag {tag_id} pose2 from cam is {est.pose2}")
+        CamToTag=est.pose1
+        CamToTag_rot = CamToTag.rotation()
+        CamToTag_transl = CamToTag.translation() 
+        # camera in tag frame TagToCam are found:
+        # inverse or Transpose of the rotation are same , which is what we need
+        TagToCam_rot = -CamToTag_rot # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
+        # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
+        TagToCam_transl = -CamToTag_transl
+        TagToCam=Pose3d(CamToTag_transl,CamToTag_rot)
+        print(f"TagToCam pose for {tag_id} is {TagToCam}")
+        tagNjson_pose = ourfield.getTagPose(tag_id)  
+        print(f"json file says tag {tag_id} is at {tagNjson_pose}")
+        # lets try to locate camera to field:
+        # pseudo code: robotloc = knowntagposejson.transformBy(BestCameraToTarget().inverse()).transformBy(robotToCamera.inverse()
+        # so for now robotloc = tagN_pose.TransformBy(BestCameraToTarget().inverse())
+        print(f"\n")
+    # once all results written, write the image to file for human (or send to drivestation?)
+    # cv2.imwrite('out.jpg', frame)
+    
+    
 
 
-    tagOfInterest = 0 # n-1 so tag2 is 1 here
-    est = estimator.estimateOrthogonalIteration(tag_info[tagOfInterest], DETECTION_ITERATIONS)
-    print("transforms")
     # if we transform tag loc by pose first:
     #transform3d_pose = Transform3d(tag1_pose.Translation3d(),tag1_pose.Rotation3d()  )
     #posrot = pose.getRotation(); # should work
@@ -317,18 +355,18 @@ def main():
     in the global frame. Both of these steps are applications of 
     rigid-body transformations. A rigid-body transformation combines 
     a translational transformation 
- to translate from one frame's origin to another and a rotational 
- transformation 
- to rotate from one frame's coordinae axes to another. A great 
- explanation of the theory behind this can be found here. We compose 
- the two to take a point in Frame A and get it's location in frame B. 
- $$^{B}p =^{B}{A}R ^{A}p + ^{B}O $$
+    to translate from one frame's origin to another and a rotational 
+    transformation 
+    to rotate from one frame's coordinae axes to another. A great 
+    explanation of the theory behind this can be found here. We compose 
+    the two to take a point in Frame A and get it's location in frame B. 
+    $$^{B}p =^{B}{A}R ^{A}p + ^{B}O $$
 
-First, we need the rotation matrix R and translation vector t of 
-the camera in the tag frame. We can get these by inverting the Pose_R 
-and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
- meaning the inverse is the same as the transpose. t is a translation 
- vector, so its inverse just negates everything.
+    First, we need the rotation matrix R and translation vector t of 
+    the camera in the tag frame. We can get these by inverting the Pose_R 
+    and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
+    meaning the inverse is the same as the transpose. t is a translation 
+    vector, so its inverse just negates everything.
 
  In Simple steps:
  1.take tag pose (camera origin) and invert it so it becomes camera pose (Tag as origin).
@@ -355,15 +393,7 @@ and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
     # est.pose1 is the pose of the tag in camera frame.
     # but we need location of camera in tag frame which is inverse of est.pose1
     
-    # tag in camera frame rotation and translation are:
-    tag_posrot = est.pose1.rotation()
-    tag_postransl = est.pose1.translation() 
-    # camera in tag frame are found:
-    # inverse or Transpose of the rotation are same , which is what we need
-    cam_posrot = -tag_posrot # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
-    # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
-    cam_postransl = -tag_postransl
-    campose=Pose3d(cam_postransl,cam_posrot)
+
     # you would send to drive estimator as: see https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
     #m_poseEstimator.addVisionMeasurement(camPose.transformBy(Constants.kCameraToRobot).toPose2d(), imageCaptureTime)
     # for now     
@@ -377,7 +407,7 @@ and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
     #newtranslation2 =  tag1_pose.translation() - est.pose1.translation() # math works but we didnt unwrap xyz into parallel axis (need to transform first)
     #print(f"newtranslation {newtranslation2}") # yielded newtranslation Translation3d(x=14.920262, y=0.739627, z=-0.461606) which was wrong
 
-    testpose3 = Pose3d(Translation3d(5,6,7), Rotation3d(0,0,0))
+    #testpose3 = Pose3d(Translation3d(5,6,7), Rotation3d(0,0,0))
 
 
     # capture_window_name = 'Capture Window'
