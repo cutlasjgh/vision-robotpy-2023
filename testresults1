@@ -123,3 +123,115 @@ Point(x=320.59257625557024, y=235.74560289937506)
 Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.074086, y=0.087103, z=2.066101), Rotation3d(x=0.006737, y=0.098488, z=-0.055345))
 
 
+
+--------
+python3 StockImageDetect.py 
+for   filename7 = 'ownimages/capture300.jpg'
+json file says tag1 is at Pose3d(Translation3d(x=15.513558, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+actual field location of tag 1 x y z in inches from json known to be: 
+
+	 610.7703298158 ,  42.190022782599996 ,  18.2200098388  
+
+tag 1 loc hardcoded: Pose3d(Translation3d(x=15.510000, y=1.071626, z=0.462700), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+if these agree then we know how to construct pose3d's successfully
+
+for tag # 8  :
+
+pose1 meters x,y,z: -0.084,0.103,2.117
+
+pose1 inches x,y,z: -3.318, 4.046, 83.343
+
+pose1 rotations x: -0.045,-0.206,-0.006
+
+degrees from est.pose1.rotation(): -2.566,-11.792,-0.319
+
+transforms
+
+tagpose: Transform3d(Translation3d(x=-0.084266, y=0.102756, z=2.116912), Rotation3d(x=-0.044787, y=-0.205805, z=-0.005572))
+
+campose: Pose3d(Translation3d(x=0.084266, y=-0.102756, z=-2.116912), Rotation3d(x=0.046911, y=0.205338, z=0.015032))
+
+
+--------------
+
+
+    filename6 = '../images/AprilTags/552_60_Straight.png' 
+
+
+json file says tag1 is at Pose3d(Translation3d(x=15.513558, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+actual field location of tag 1 x y z in inches from json known to be: 
+
+	 610.7703298158 ,  42.190022782599996 ,  18.2200098388  
+
+tag 1 loc hardcoded: Pose3d(Translation3d(x=15.510000, y=1.071626, z=0.462700), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+if these agree then we know how to construct pose3d's successfully
+
+for tag # 1  :
+
+pose1 meters x,y,z: 0.593,0.332,0.924
+
+pose1 inches x,y,z: 23.358, 13.071, 36.393
+
+pose1 rotations x: 0.001,-0.077,-0.019
+
+degrees from est.pose1.rotation(): 0.048,-4.398,-1.064
+
+transforms
+
+tagpose: Transform3d(Translation3d(x=0.593296, y=0.331999, z=0.924394), Rotation3d(x=0.000837, y=-0.076757, z=-0.018578))
+
+campose: Pose3d(Translation3d(x=-0.593296, y=-0.331999, z=-0.924394), Rotation3d(x=0.000590, y=0.076759, z=0.018569))
+
+
+
+---------------
+
+    filename5 = '../images/AprilTags/383_60_Straight.png' 
+json file says tag1 is at Pose3d(Translation3d(x=15.513558, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+actual field location of tag 1 x y z in inches from json known to be: 
+
+	 610.7703298158 ,  42.190022782599996 ,  18.2200098388  
+
+tag 1 loc hardcoded: Pose3d(Translation3d(x=15.510000, y=1.071626, z=0.462700), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+if these agree then we know how to construct pose3d's successfully
+
+for tag # 1  :
+
+pose1 meters x,y,z: 1.178,0.461,3.525
+
+pose1 inches x,y,z: 46.384, 18.131, 138.799
+
+pose1 rotations x: -0.035,-0.058,0.010
+
+degrees from est.pose1.rotation(): -2.016,-3.308,0.564
+
+for tag # 2  :
+
+pose1 meters x,y,z: -0.520,0.444,3.367
+
+pose1 inches x,y,z: -20.462, 17.487, 132.552
+
+pose1 rotations x: -0.007,0.040,-0.013
+
+degrees from est.pose1.rotation(): -0.418,2.276,-0.744
+
+transforms
+
+tagpose: Transform3d(Translation3d(x=9.032026, y=-0.151638, z=7.422988), Rotation3d(x=2.606166, y=-1.137414, z=1.046855))
+
+campose: Pose3d(Translation3d(x=-9.032026, y=0.151638, z=-7.422988), Rotation3d(x=2.280350, y=-0.983185, z=1.182104))
+
+
+------------
+
+
+
+
+
+

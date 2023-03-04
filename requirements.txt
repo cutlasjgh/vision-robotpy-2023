@@ -1,0 +1,11 @@
+pupil-apriltags
+numpy
+opencv-python
+orjson
+climage
+pytransform3d
+flask-socketio
+flask
+waitress
+shared-memory-dict
+ntcore
