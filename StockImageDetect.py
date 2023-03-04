@@ -275,10 +275,10 @@ def main():
     ourfield = robotpy_apriltag.AprilTagFieldLayout(r'2023-chargedup.json')
     #robotpy_apriltag.AprilTagFieldLayout(robotpy_apriltag.AprilTagFieldLayout.k2023ChargedUp).getTagPose(1)
     # gets tag pose from json:
-    tag1_pose = ourfield.getTagPose(1)  
-    print(f"json file says tag1 is at {tag1_pose}")
+    # tag1_pose = ourfield.getTagPose(1)  
+    # print(f"json file says tag1 is at {tag1_pose}")
     #tag1_x = tag1_pose.X()
-    print ("actual field location of tag 1 x y z in inches from json known to be: \n\t",mToInches(tag1_pose.X()),", ",mToInches(tag1_pose.Y()),", ",mToInches(tag1_pose.Z())," ")
+    # print ("actual field location of tag 1 x y z in inches from json known to be: \n\t",mToInches(tag1_pose.X()),", ",mToInches(tag1_pose.Y()),", ",mToInches(tag1_pose.Z())," ")
     
     # rotat1 = Rotation3d(0,0,0)
     # translat1 = Translation3d(5,6,7)
@@ -286,9 +286,9 @@ def main():
     # testtag2 = Pose3d(Translation3d(5,6,7), Rotation3d(0,0,0))
     # print(f"testtag {testtag}")
     # print(f"testtag2 {testtag2}")
-    tag1location_hardcoded = Pose3d(Translation3d(15.51,1.071626,0.4627), Rotation3d(	Quaternion (0,0,0,1) ))
-    print(f"tag 1 loc hardcoded: {tag1location_hardcoded}")
-    print("if these agree then we know how to construct pose3d's successfully")
+    # tag1location_hardcoded = Pose3d(Translation3d(15.51,1.071626,0.4627), Rotation3d(	Quaternion (0,0,0,1) ))
+    # print(f"tag 1 loc hardcoded: {tag1location_hardcoded}")
+    # print("if these agree then we know how to construct pose3d's successfully")
 
 
     # get an image from file to work with:
@@ -302,7 +302,9 @@ def main():
     cv2.imwrite('out.jpg', out_frame)
 
 
-    tagOfInterest = 0 # n-1 so tag2 is 1 here
+    # tagOfInterest = tag_info.tag_id
+    # tag1_pose = ourfield.getTagPose(1)  
+    # print(f"json file says tag1 is at {tag1_pose}")
     est = estimator.estimateOrthogonalIteration(tag_info[tagOfInterest], DETECTION_ITERATIONS)
     print("transforms")
     # if we transform tag loc by pose first:
@@ -356,6 +358,7 @@ and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
     # but we need location of camera in tag frame which is inverse of est.pose1
     
     # tag in camera frame rotation and translation are:
+    print(f"tagpose: {est.pose1}")
     tag_posrot = est.pose1.rotation()
     tag_postransl = est.pose1.translation() 
     # camera in tag frame are found:
@@ -364,6 +367,7 @@ and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
     # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
     cam_postransl = -tag_postransl
     campose=Pose3d(cam_postransl,cam_posrot)
+    print(f"campose: {campose}")
     # you would send to drive estimator as: see https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
     #m_poseEstimator.addVisionMeasurement(camPose.transformBy(Constants.kCameraToRobot).toPose2d(), imageCaptureTime)
     # for now     
