@@ -61,6 +61,7 @@ And Y angle is actually the angle to the tag from the camera. This could be turn
 It seems Field Coordinates do flip for red team per:
 https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/coordinate-systems.html 
 See the jpg image that shows XY axis in blue and XY axis in Red
+You don't have to flip the field but you can see info 
 
 Photonvision in comparison sets origin 0,0,0 at center of field:https://docs.limelightvision.io/en/latest/coordinate_systems_fiducials.html#field-space
 Photon vision uses +X toward Red team I think, and +Y toward Audience, +Z is toward sky
@@ -90,6 +91,8 @@ They are the 2023 FRC field images that were obtained from zip file
  next year they might be moved to https://www.firstinspires.org/resource-library/frc/2023playingfieldarchive
 
 
+NOTE there were issues writing 1080 line images, they wrote as 480 it appears.
+or i forgot to change the detect frame size.
 
 # more notes on configuring this to work
 (need to reproduce to get exact commands)
