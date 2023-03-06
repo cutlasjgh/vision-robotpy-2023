@@ -124,6 +124,47 @@ def print_estimate(est,tag_id):
     # I think Y angle is the 'z' angle actually..camera axis not world axis
     print (f"degrees from est.pose1.rotation(): {math.degrees(est.pose1.rotation().x):.3f},{math.degrees(est.pose1.rotation().y):.3f},{math.degrees(est.pose1.rotation().z):.3f}" ) 
 
+# tagposeToCameraPosition will return camera pose on field
+# inputs:
+# tagpose from an estimate.pose1 of tag
+# tagid  (tag number detected)
+# known taglocationonfield (loaded from field json file for current year)
+def tagposeToCameraPosition(tagpose, tag_id ,taglocationonfield):
+    # GET FROM ESTIMATE/DETECT
+    tag_atc_rel_pose = tagpose
+    print (f"Case 101 tag pose {tag_atc_rel_pose}")
+    cam_atc_rel_rot = -tag_atc_rel_pose.rotation() # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
+    # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
+    # CALC #1
+    cam_atc_rel_transl = -tag_atc_rel_pose.translation()
+    cam_atc_rel_pose=Pose3d(cam_atc_rel_transl,cam_atc_rel_rot)
+    print(f"campose: {cam_atc_rel_pose}")
+    # should be campose: Pose3d(Translation3d(x=-0.000000, y=-0.000000, z=-2.820000), Rotation3d(x=-0.000000, y=0.785398, z=-0.000000))
+    # CALC #2
+    # try 3 rotations: unroll, unpitch and then unyaw, or find one matrix to multiply by
+    # rotationUpright2 = cam_atc_rel_pose - Pose3d(Translation3d(2,0,2), Rotation3d(0,0,0))
+    # print(f" transform3d we need to use is  {rotationUpright2} \n")
+    # #rotationUpright= Transform3d(Translation3d(0,0,0), -cam_atc_rel_rot)
+    # cam_atc_rel_pose_orthog = cam_atc_rel_pose.transformBy(rotationUpright2)
+    # print(f" after upright rotation cam atc rel pose orthog {cam_atc_rel_pose_orthog} ")
+    temppose =  cam_atc_rel_pose.relativeTo(tag_atc_rel_pose)
+    print(f" after upright rotation cam atc rel pose orthog {temppose} ")
+    # why are they 2x magntitude?
+    # remap xyz properly  april tag coord -> FCS coord as X->Y, Y-> -Z, Z-> -X 
+    # divide by 2.0 as magitude returned by relativeTo was wrong, keep in mind if they fix it one day
+    x = -temppose.Z()/2.0
+    y = -temppose.X()/2.0
+    z = -temppose.Y()/2.0 
+    # and facing of camera in case 101 is pi + pi/4 or said different way,
+    # facing of camera is tag 8 Z angle plus 180deg minus our campose y angle.
+    cameraZangle = taglocationonfield.rotation().Z() + math.pi - cam_atc_rel_rot.Y()
+    cam_fcs_rel = Pose3d(Translation3d(x,y,z),Rotation3d(0,0,cameraZangle) )
+    print(f" camera pose in FCS relative coords  {cam_fcs_rel} ") 
+    # easiest to just calc new absolute pose.
+    cam_fcs_abs = Pose3d(Translation3d(x+taglocationonfield.X(),y+taglocationonfield.Y(),z+taglocationonfield.Z()),Rotation3d(0,0,cameraZangle) )
+
+    print(f" camera pose in FCS absolutecoords  {cam_fcs_abs} ")
+
 # process_apriltag will get Id of Tag
 # gets pixel center (not needed except for testing?)
 # gets hamming distance (not needed except for testing?)
@@ -134,13 +175,16 @@ def process_apriltag(estimator, tag):
     # decision_margin = tag.getDecisionMargin()
     #print("Hamming for id {} is {} with decision margin {}".format(tag_id, hamming, decision_margin))
     est = estimator.estimateOrthogonalIteration(tag, DETECTION_ITERATIONS)
-    return tag_id, est, center
+    #print_estimate(est,tag)
+    return tag, est.pose1
 
 # draw_details will draw to human info to output image
 def draw_details(frame, result):
     assert frame is not None
     assert result is not None
-    tag_id, pose, center = result
+    tag, pose = result
+    center = tag.getCenter()
+    tag_id= tag.getId()
     #print(center)
     cv2.circle(frame, (int(center.x), int(center.y)), 50, colors['magenta'], 3)
     msg = f"Tag ID: {tag_id} Pose: {pose} Center:{center}"
@@ -161,15 +205,15 @@ def detect_and_process_apriltag(frame, detector, estimator):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     # Detect apriltag
     tag_info = detector.detect(gray)
+    #print(f"tag_info: {tag_info}]\n") # contains some false detects
+    # if detectin margin < 100 or so it's progbably not really there, so ignore those
     filter_tags = [tag for tag in tag_info if tag.getDecisionMargin() > DETECTION_MARGIN_THRESHOLD]
     results = [ process_apriltag(estimator, tag) for tag in filter_tags ]
     # Note that results will be empty if no apriltag is detected
     for result in results:
         frame = draw_details(frame, result) # might not want to do if during real game
        # print (result)
-    # once all results written, write the image to file for human (or send to drivestation?)
-    cv2.imwrite('out.jpg', frame)
-    return frame, results # was frame , tag_info
+    return frame, results
 
 # get_apriltag_detector_and_estimator 
 # sets up april tag family and pose estimator
@@ -249,12 +293,11 @@ def main():
     filename6 = '../images/AprilTags/552_60_Straight.png' 
     # some from ownimages(own pics dir) approx straight on, 2m away from tag 8. 1080resolution
     filename7 = 'ownimages/capture300.jpg'
-    # some from ownimages(own pics dir) image taken when offfield to left of tag 8, about 4m away. 1080resolution
-    filename8 = 'ownimages/capture25.jpg'
+    filename8 = 'ownimages/capture455.jpg'
 
-    fileToUse = filename7
-
-    #field coords of tag 1 - we can get from json , so dont hardcode
+    fileToUse = filename1
+    print(f"Filename is {fileToUse}")
+    #field coords of tag 1
     # tag1_x_inches = mToInches(15.513558)   # orig in meters and multiply by 39.3701 inches per meter to get inches
     # tag1_y_inches =  mToInches(1.071626 ) 
     # tag1_z_inches = mToInches(0.462788 ) 
@@ -273,13 +316,15 @@ def main():
     #     print("Failed to load field json file")
     #     exit(1)
     #print (fieldjson)
-    print("\n")
     #print(fieldjson['tags'][0]) # this is tag 1 info
     #findTagInfoFromJSON(fieldjson,1)
     ourfield = robotpy_apriltag.AprilTagFieldLayout(r'2023-chargedup.json')
     #robotpy_apriltag.AprilTagFieldLayout(robotpy_apriltag.AprilTagFieldLayout.k2023ChargedUp).getTagPose(1)
+    # gets tag pose from json:
+    # tag1_pose = ourfield.getTagPose(1)  
+    # print(f"json file says tag1 is at {tag1_pose}")
     #tag1_x = tag1_pose.X()
-    #print ("actual field location of tag 1 x y z in inches from json known to be: \n\t",mToInches(tag1_pose.X()),", ",mToInches(tag1_pose.Y()),", ",mToInches(tag1_pose.Z())," ")
+    # print ("actual field location of tag 1 x y z in inches from json known to be: \n\t",mToInches(tag1_pose.X()),", ",mToInches(tag1_pose.Y()),", ",mToInches(tag1_pose.Z())," ")
     
     # rotat1 = Rotation3d(0,0,0)
     # translat1 = Translation3d(5,6,7)
@@ -295,53 +340,57 @@ def main():
     # get an image from file to work with:
     frame = cv2.imread(fileToUse)
     assert frame is not None
+    height = frame.shape[0]
+    width = frame.shape[1] 
     # initialize detector and pose estimator
     #detector, estimator = get_apriltag_detector_and_estimator((640,480))
     detector, estimator = get_apriltag_detector_and_estimator((1080,1920))
     # do actual detection of april tags
-    # used call before but putting inline for development reasons
-    # out_frame, tag_info = detect_and_process_apriltag(frame, detector, estimator)
+    out_frame, results= detect_and_process_apriltag(frame, detector, estimator)
+    # results is [] of  tuple containing tag, est.pose1
+    print (f"Results array is {results}")
+    cv2.imwrite('out.jpg', out_frame)
+    print (f"Frame type is {str(type(out_frame))}")
 
-    # assert we have file or image to process - probably best to replace with try except 
-    assert frame is not None
-    # Convert the frame to grayscale
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # Detect apriltag
-    tag_info = detector.detect(gray)
-    filter_tags = [tag for tag in tag_info if tag.getDecisionMargin() > DETECTION_MARGIN_THRESHOLD]
-    results = [ process_apriltag(estimator, tag) for tag in filter_tags ]
-    # Note that results will be empty if no apriltag is detected
+    # what's index of result of hightest confidence (detectino margin)
+    # actaully just find image nearest center for now
+    # result is a tag and est.pose
+    # bestDetectionThreshold = 0.0
+    # bestTag=0
+    # bestPose=0
+    # for result in results:
+    #     #print(f"found result with tagid of {result[0].getId()} having detectmargin:{result[0].getDecisionMargin() }")
+    #     if result[0].getDecisionMargin() > bestDetectionThreshold :
+    #         bestDetectionThreshold = result[0].getDecisionMargin()
+    #         bestTag=result[0]
+    #         bestPose=  result[1]  
+    # actual centervalue:
+    actualImageCenter = width/2.0
+    bestCenterDistance = 99999 # image center nearest middle should be closest value, start big
+    bestTag=0
+    bestPose=Pose3d()
     for result in results:
-        frame = draw_details(frame, result) # might not want to do if during real game
-        # print (result)
-        tag_id, est, center = result
-        print_estimate(est,tag_id)
+        if math.fabs( result[0].getCenter().x  - actualImageCenter ) < bestCenterDistance :
+            bestCenterDistance = math.fabs( float(result[0].getCenter().x ) - actualImageCenter )
+            bestTag=result[0]
+            bestPose=  result[1]   
     
-        # est = estimator.estimateOrthogonalIteration(tag_info[tagOfInterest], DETECTION_ITERATIONS)
-        # tag in camera frame CamToTag rotation and translation are:
-        print(f"tag {tag_id} pose1 from cam is {est.pose1}")
-        print(f"tag {tag_id} pose2 from cam is {est.pose2}")
-        CamToTag=est.pose1
-        CamToTag_rot = CamToTag.rotation()
-        CamToTag_transl = CamToTag.translation() 
-        # camera in tag frame TagToCam are found:
-        # inverse or Transpose of the rotation are same , which is what we need
-        TagToCam_rot = -CamToTag_rot # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
-        # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
-        TagToCam_transl = -CamToTag_transl
-        TagToCam=Pose3d(CamToTag_transl,CamToTag_rot)
-        print(f"TagToCam pose for {tag_id} is {TagToCam}")
-        tagNjson_pose = ourfield.getTagPose(tag_id)  
-        print(f"json file says tag {tag_id} is at {tagNjson_pose}")
-        # lets try to locate camera to field:
-        # pseudo code: robotloc = knowntagposejson.transformBy(BestCameraToTarget().inverse()).transformBy(robotToCamera.inverse()
-        # so for now robotloc = tagN_pose.TransformBy(BestCameraToTarget().inverse())
-        print(f"\n")
-    # once all results written, write the image to file for human (or send to drivestation?)
-    # cv2.imwrite('out.jpg', frame)
-    
-    
+    #tagOfInterest = 0 # i think 1st is closest to center ?
+    # tag1_pose = ourfield.getTagPose(1)  
+    # print(f"json file says tag1 is at {tag1_pose}")
+    # print ('tag_info type is ' + str(type(tag_info)))
+    # print ('tag_info[0] type is ' + str(type(tag_info[0])))
+    best_tagid = bestTag.getId()
+    print(f"Found best tag {best_tagid} at pose {bestPose}")
+    known_tagN_pose = ourfield.getTagPose(best_tagid)  
+    print(f"json file says tag {best_tagid} is at {known_tagN_pose}")
+   
+    # est.pose1 is actually a Transform3d so get it's translation and rotation
 
+    tag_posrot = bestPose.rotation()
+    tag_postransl = bestPose.translation() 
+    tag_pos = Pose3d(tag_postransl,tag_posrot)
+    tagposeToCameraPosition(tag_pos, best_tagid ,known_tagN_pose)
 
     # if we transform tag loc by pose first:
     #transform3d_pose = Transform3d(tag1_pose.Translation3d(),tag1_pose.Rotation3d()  )
@@ -393,7 +442,17 @@ def main():
     # est.pose1 is the pose of the tag in camera frame.
     # but we need location of camera in tag frame which is inverse of est.pose1
     
-
+    # tag in camera frame rotation and translation are:
+    # print(f"tagpose: {bestPose}")
+    # tag_posrot = bestPose.rotation()
+    # tag_postransl = bestPose.translation() 
+    # camera in tag frame are found:
+    # inverse or Transpose of the rotation are same , which is what we need
+    # cam_posrot = -tag_posrot # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
+    # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
+    # cam_postransl = -tag_postransl
+    # campose=Pose3d(cam_postransl,cam_posrot)
+    # print(f"campose: {campose}")
     # you would send to drive estimator as: see https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
     #m_poseEstimator.addVisionMeasurement(camPose.transformBy(Constants.kCameraToRobot).toPose2d(), imageCaptureTime)
     # for now     

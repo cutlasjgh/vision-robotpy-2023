@@ -51,6 +51,8 @@ timestamping
 
 camPose.transformBy(Constants.kCameraToRobot).toPose2d() #transforms camera location to robot location
 
+Pose3d to 2d .toPose2d()
+
 apriltags https://docs.wpilib.org/en/stable/docs/software/vision-processing/apriltag/apriltag-intro.html 
 
 java build field json

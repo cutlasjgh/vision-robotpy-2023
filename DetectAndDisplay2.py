@@ -2,11 +2,14 @@ import cv2
 import robotpy_apriltag
 from wpimath.geometry import Transform3d
 
-import math
+import math, time
 import pytest
 # from https://github.com/WHEARobotics/FRC2023/blob/62359c466a833b51f44f20dab517374416b01e6b/src/Vision/01-DetectAndDisplay/DetectAndDisplay.py
 
-imagecounter = 480
+imagecounter = 1100
+#resolution = (1280,720)
+#resolution = (1920,1080) 
+resolution = (640,480)   # largely unused except for pi camera i think see the detector creation
 
 
 def get_apriltag_detector_and_estimator(frame_size):
@@ -31,6 +34,7 @@ def get_capture(window_name, video_capture_device_index=0):
 def draw_overlay(frame):
     # Get the height and width of the frame
     height, width, channels = frame.shape
+    print(f"captured image resolution {width} x {height} ")
     # Draw a circle in the center of the frame
     cv2.circle(frame, (width // 2, height // 2), 50, (0, 0, 255), 1)
     # Draw diagonal lines from top-left to bottom-right and top-right to bottom-left
@@ -75,7 +79,7 @@ def detect_and_process_apriltag(frame, detector, estimator):
     # Note that results will be empty if no apriltag is detected
     for result in results:
         frame = draw_tag(frame, result)
-        cv2.imwrite('capture'+str(imagecounter)+'.jpg', frame)
+        cv2.imwrite('./ownimages/capture'+str(imagecounter)+'.jpg', frame)
         imagecounter += 1
     return frame
 
@@ -91,6 +95,7 @@ def show_capture(capture_window_name, capture, detector, estimator):
         cv2.imshow(capture_window_name, overlaid_image)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+        time.sleep(1)
 
 def cleanup_capture(capture):
     # When everything done, release the capture
@@ -99,9 +104,16 @@ def cleanup_capture(capture):
 
 def main():
     capture_window_name = 'Capture Window'
+    
     capture = get_capture(capture_window_name, 0)
+
+    #capture = cv2.VideoCapture(0, cv2.CAP_DSHOW) # this is the magic!
+
+    # capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    # capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    detector, estimator = get_apriltag_detector_and_estimator((resolution))
     #detector, estimator = get_apriltag_detector_and_estimator((1080,1920))
-    detector, estimator = get_apriltag_detector_and_estimator((640,480))
+    #detector, estimator = get_apriltag_detector_and_estimator((1280,720))
     show_capture(capture_window_name, capture, detector, estimator)
     cleanup_capture(capture)
 

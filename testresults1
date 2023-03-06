@@ -1,4 +1,7 @@
 
+NOTE when i wrote the captures, they got written as 640x480
+so original detail is missing 
+
 2/25/2023 test results. 
 Case #1 
 Camera Location: off to left of tag #8 (off field)
@@ -124,3 +127,113 @@ Point(x=320.59257625557024, y=235.74560289937506)
 Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.074086, y=0.087103, z=2.066101), Rotation3d(x=0.006737, y=0.098488, z=-0.055345))
 
 
+
+--------
+filename 2 
+Filename is ../images/AprilTags/162_36_Straight.png
+Results array is [(<AprilTagDetection tag_family=tag16h5 tag_id=7 hamming=0 decision_margin=104.38444519042969 center=Point(x=1143.2545073996528, y=307.6806500279631)>, Transform3d(Translation3d(x=2.293595, y=0.298426, z=2.010926), Rotation3d(x=0.032854, y=-0.095059, z=0.019044))), (<AprilTagDetection tag_family=tag16h5 tag_id=8 hamming=0 decision_margin=103.9396743774414 center=Point(x=574.8575353849335, y=306.20491043007956)>, Transform3d(Translation3d(x=0.626684, y=0.279071, z=1.911817), Rotation3d(x=-0.024873, y=-0.069603, z=0.014314)))]
+Frame type is <class 'numpy.ndarray'>
+Found best tag 8 at pose Transform3d(Translation3d(x=0.626684, y=0.279071, z=1.911817), Rotation3d(x=-0.024873, y=-0.069603, z=0.014314))
+json file says tag 8 is at Pose3d(Translation3d(x=1.027430, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+tagpose: Transform3d(Translation3d(x=0.626684, y=0.279071, z=1.911817), Rotation3d(x=-0.024873, y=-0.069603, z=0.014314))
+campose: Pose3d(Translation3d(x=-0.626684, y=-0.279071, z=-1.911817), Rotation3d(x=0.023933, y=0.069931, z=-0.012611))
+
+
+
+----------
+
+
+    filename5 = '../images/AprilTags/383_60_Straight.png' 
+Filename is ../images/AprilTags/383_60_Straight.png
+
+
+Results array is [(<AprilTagDetection tag_family=tag16h5 tag_id=1 hamming=0 decision_margin=153.26727294921875 center=Point(x=579.3877682970711, y=295.67891809274704)>, Transform3d(Translation3d(x=1.178153, y=0.460540, z=3.525494), Rotation3d(x=-0.035191, y=-0.057734, z=0.009835))), (<AprilTagDetection tag_family=tag16h5 tag_id=2 hamming=0 decision_margin=142.45021057128906 center=Point(x=237.66123419868973, y=296.5032716538479)>, Transform3d(Translation3d(x=-0.519723, y=0.444159, z=3.366825), Rotation3d(x=-0.007290, y=0.039720, z=-0.012988)))]
+found result with tagid of 1 having detectmargin:153.26727294921875
+found result with tagid of 2 having detectmargin:142.45021057128906
+Found best tag 1 at pose Transform3d(Translation3d(x=1.178153, y=0.460540, z=3.525494), Rotation3d(x=-0.035191, y=-0.057734, z=0.009835))
+json file says tag 1 is at Pose3d(Translation3d(x=15.513558, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+tagpose: Transform3d(Translation3d(x=1.178153, y=0.460540, z=3.525494), Rotation3d(x=-0.035191, y=-0.057734, z=0.009835))
+campose: Pose3d(Translation3d(x=-1.178153, y=-0.460540, z=-3.525494), Rotation3d(x=0.034680, y=0.058042, z=-0.007812))
+
+------------
+
+    filename6 = '../images/AprilTags/552_60_Straight.png' 
+
+
+Filename is ../images/AprilTags/552_60_Straight.png
+
+
+Results array is [(<AprilTagDetection tag_family=tag16h5 tag_id=1 hamming=0 decision_margin=133.9989471435547 center=Point(x=794.5121871273385, y=450.70543252947965)>, Transform3d(Translation3d(x=0.593296, y=0.331999, z=0.924394), Rotation3d(x=0.000837, y=-0.076757, z=-0.018578)))]
+found result with tagid of 1 having detectmargin:133.9989471435547
+Found best tag 1 at pose Transform3d(Translation3d(x=0.593296, y=0.331999, z=0.924394), Rotation3d(x=0.000837, y=-0.076757, z=-0.018578))
+json file says tag 1 is at Pose3d(Translation3d(x=15.513558, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+tagpose: Transform3d(Translation3d(x=0.593296, y=0.331999, z=0.924394), Rotation3d(x=0.000837, y=-0.076757, z=-0.018578))
+campose: Pose3d(Translation3d(x=-0.593296, y=-0.331999, z=-0.924394), Rotation3d(x=0.000590, y=0.076759, z=0.018569))
+
+---------------
+
+Note this image from 1/2 field day
++++
+At time of photo capture, output was: 
+Tag ID: 8 Pose: Transform3d(Translation3d(x=-0.084880, y=0.101102, z=2.102078), Rotation3d(x=0.015748, y=-0.220423, z=-0.013228))
+Hamming for 8 is 0 with decision margin 143.2257080078125
++++   
+
+for   filename7 = 'ownimages/capture300.jpg'
+
+Filename is ownimages/capture300.jpg
+
+
+Results array is [(<AprilTagDetection tag_family=tag16h5 tag_id=8 hamming=0 decision_margin=142.17991638183594 center=Point(x=317.7342897982499, y=239.99125587253008)>, Transform3d(Translation3d(x=-0.084266, y=0.102756, z=2.116912), Rotation3d(x=-0.044787, y=-0.205805, z=-0.005572)))]
+found result with tagid of 8 having detectmargin:142.17991638183594
+Found best tag 8 at pose Transform3d(Translation3d(x=-0.084266, y=0.102756, z=2.116912), Rotation3d(x=-0.044787, y=-0.205805, z=-0.005572))
+json file says tag 8 is at Pose3d(Translation3d(x=1.027430, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+tagpose: Transform3d(Translation3d(x=-0.084266, y=0.102756, z=2.116912), Rotation3d(x=-0.044787, y=-0.205805, z=-0.005572))
+campose: Pose3d(Translation3d(x=0.084266, y=-0.102756, z=-2.116912), Rotation3d(x=0.046911, y=0.205338, z=0.015032))
+
+--------------
+for filename 8 
+Filename is ownimages/capture455.jpg
+Results array is [(<AprilTagDetection tag_family=tag16h5 tag_id=8 hamming=0 decision_margin=144.72830200195312 center=Point(x=318.51759100686775, y=236.48300909235343)>, Transform3d(Translation3d(x=-0.080698, y=0.090472, z=2.085134), Rotation3d(x=-0.076792, y=-0.088851, z=-0.050655)))]
+found result with tagid of 8 having detectmargin:144.72830200195312
+Found best tag 8 at pose Transform3d(Translation3d(x=-0.080698, y=0.090472, z=2.085134), Rotation3d(x=-0.076792, y=-0.088851, z=-0.050655))
+json file says tag 8 is at Pose3d(Translation3d(x=1.027430, y=1.071626, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+tagpose: Transform3d(Translation3d(x=-0.080698, y=0.090472, z=2.085134), Rotation3d(x=-0.076792, y=-0.088851, z=-0.050655))
+campose: Pose3d(Translation3d(x=0.080698, y=-0.090472, z=-2.085134), Rotation3d(x=0.081479, y=0.084575, z=0.057520))
+
+
+---------
+files capture601.jpg  tag 7
+location +2.5m from tag , direct in front. slightly angled.
+Hamming for 7 is 0 with decision margin 145.09539794921875
+Point(x=312.64832814636276, y=246.29095968185868)
+Tag ID: 7 Pose: Transform3d(Translation3d(x=-0.118555, y=0.145187, z=2.515918), Rotation3d(x=-0.054889, y=0.226544, z=-0.056958))
+
+-----------
+files capture602.jpg  tag 7
+FCS coords location +2.5m in X from , +1m in Y tag (to right of tag), pointed directly at. 
+captured image resolution 640 x 480 
+Hamming for 7 is 0 with decision margin 145.12930297851562
+Point(x=332.2703803230464, y=219.44361936805063)
+Tag ID: 7 Pose: Transform3d(Translation3d(x=-0.051545, y=0.048956, z=2.691546), Rotation3d(x=-0.055593, y=0.452719, z=-0.041957))
+
+-----------
+files capture603.jpg  tag 7
+FCS coords location +2.5m in X from , +1m in Y tag , not pointed directly at
+pointed straight at wall, so angles should be almost in line
+captured image resolution 640 x 480 
+Hamming for 7 is 0 with decision margin 127.99615478515625
+Point(x=48.50093372923221, y=233.97583312033146)
+Tag ID: 7 Pose: Transform3d(Translation3d(x=-1.057916, y=0.098890, z=2.490498), Rotation3d(x=-0.031436, y=0.130204, z=-0.035998))
+
+----------
+
+file capture604.jpg  tag 7
+FCS coords location +1.5m in X from , +1m in Y tag (to right of tag), not pointed directly at
+pointed about 1/2 the angle toward target,  half at target, half toward wall
+captured image resolution 640 x 480 
+Hamming for 7 is 0 with decision margin 150.76031494140625
+Point(x=184.2924948984576, y=230.51743501177913)
+Tag ID: 7 Pose: Transform3d(Translation3d(x=-0.408528, y=0.061202, z=1.771221), Rotation3d(x=-0.048734, y=0.441873, z=-0.049342))
+
+----------------
