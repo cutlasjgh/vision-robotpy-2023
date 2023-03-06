@@ -61,6 +61,8 @@ https://www.chiefdelphi.com/t/tagtracker-for-apriltag-detection-and-pose-estimat
 set field to other orientation
 OriginPosition  https://first.wpi.edu/wpilib/allwpilib/docs/beta/cpp/classfrc_1_1_april_tag_field_layout.html#a584d958402e9e741d7447da016b268d5
 
+origin again https://github.com/wpilibsuite/allwpilib/pull/4912  
+
 another good explanation of mapping april tags to real world coords step by step https://raceon.io/localization/
 
 good images for apriltags into world https://dspace.cvut.cz/bitstream/handle/10467/73783/F3-BP-2017-Koleckar-David-BP_PI_Koleckar_Chudoba%2813133%29.pdf?sequence=-1&isAllowed=y
@@ -98,4 +100,21 @@ https://www.chiefdelphi.com/t/how-to-properly-perform-3d-transformations-using-w
 https://www.chiefdelphi.com/t/photonvision-beta-2023-apriltags/415626/106
 
 
+april tags on old 2015 polaris bot http://wiki.lofarolabs.com/index.php/Localizing_with_AprilTags
+
+
+set origin in java 
+void AprilTagFieldLayout::SetOrigin(OriginPosition origin) {
+  switch (origin) {
+    case OriginPosition::kBlueAllianceWallRightSide:
+      SetOrigin(Pose3d{});
+      break;
+    case OriginPosition::kRedAllianceWallRightSide:
+      SetOrigin(Pose3d{Translation3d{m_fieldLength, m_fieldWidth, 0_m},
+                       Rotation3d{0_deg, 0_deg, 180_deg}});
+      break;
+    default:
+      throw std::invalid_argument("Invalid origin");
+  }
+}
 

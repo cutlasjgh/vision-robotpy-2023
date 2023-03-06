@@ -1,6 +1,10 @@
 # vision-robotpy-2023
 
-StockImageDetect.py is the only real working item here so far
+StockImageDetect.py finds position based on a image file as input.
+
+DetectAndDisplay2.py uses a camera (HD3000 lifecam is calibrated) and prints out field location.
+  - there is a writeImage flag that you can set to True to force image files to be written.
+  - the imagecounter variable sets the filename index , to make it easy to disallow overwrites.
 
 # Field info:
 

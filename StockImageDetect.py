@@ -389,6 +389,7 @@ def main():
     # print ('tag_info type is ' + str(type(tag_info)))
     # print ('tag_info[0] type is ' + str(type(tag_info[0])))
     best_tagid = bestTag.getId()
+    #print ('bestTag type is ' + str(type(bestTag))) 
     print(f"Found best tag {best_tagid} at pose {bestPose}")
     known_tagN_pose = ourfield.getTagPose(best_tagid)  
     print(f"json file says tag {best_tagid} is at {known_tagN_pose}")
