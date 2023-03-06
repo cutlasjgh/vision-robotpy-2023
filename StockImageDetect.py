@@ -124,6 +124,47 @@ def print_estimate(est,tag):
     # I think Y angle is the 'z' angle actually..camera axis not world axis
     print (f"degrees from est.pose1.rotation(): {math.degrees(est.pose1.rotation().x):.3f},{math.degrees(est.pose1.rotation().y):.3f},{math.degrees(est.pose1.rotation().z):.3f}" ) 
 
+# tagposeToCameraPosition will return camera pose on field
+# inputs:
+# tagpose from an estimate.pose1 of tag
+# tagid  (tag number detected)
+# known taglocationonfield (loaded from field json file for current year)
+def tagposeToCameraPosition(tagpose, tag_id ,taglocationonfield):
+    # GET FROM ESTIMATE/DETECT
+    tag_atc_rel_pose = tagpose
+    print (f"Case 101 tag pose {tag_atc_rel_pose}")
+    cam_atc_rel_rot = -tag_atc_rel_pose.rotation() # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
+    # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
+    # CALC #1
+    cam_atc_rel_transl = -tag_atc_rel_pose.translation()
+    cam_atc_rel_pose=Pose3d(cam_atc_rel_transl,cam_atc_rel_rot)
+    print(f"campose: {cam_atc_rel_pose}")
+    # should be campose: Pose3d(Translation3d(x=-0.000000, y=-0.000000, z=-2.820000), Rotation3d(x=-0.000000, y=0.785398, z=-0.000000))
+    # CALC #2
+    # try 3 rotations: unroll, unpitch and then unyaw, or find one matrix to multiply by
+    # rotationUpright2 = cam_atc_rel_pose - Pose3d(Translation3d(2,0,2), Rotation3d(0,0,0))
+    # print(f" transform3d we need to use is  {rotationUpright2} \n")
+    # #rotationUpright= Transform3d(Translation3d(0,0,0), -cam_atc_rel_rot)
+    # cam_atc_rel_pose_orthog = cam_atc_rel_pose.transformBy(rotationUpright2)
+    # print(f" after upright rotation cam atc rel pose orthog {cam_atc_rel_pose_orthog} ")
+    temppose =  cam_atc_rel_pose.relativeTo(tag_atc_rel_pose)
+    print(f" after upright rotation cam atc rel pose orthog {temppose} ")
+    # why are they 2x magntitude?
+    # remap xyz properly  april tag coord -> FCS coord as X->Y, Y-> -Z, Z-> -X 
+    # divide by 2.0 as magitude returned by relativeTo was wrong, keep in mind if they fix it one day
+    x = -temppose.Z()/2.0
+    y = -temppose.X()/2.0
+    z = -temppose.Y()/2.0 
+    # and facing of camera in case 101 is pi + pi/4 or said different way,
+    # facing of camera is tag 8 Z angle plus 180deg minus our campose y angle.
+    cameraZangle = taglocationonfield.rotation().Z() + math.pi - cam_atc_rel_rot.Y()
+    cam_fcs_rel = Pose3d(Translation3d(x,y,z),Rotation3d(0,0,cameraZangle) )
+    print(f" camera pose in FCS relative coords  {cam_fcs_rel} ") 
+    # easiest to just calc new absolute pose.
+    cam_fcs_abs = Pose3d(Translation3d(x+taglocationonfield.X(),y+taglocationonfield.Y(),z+taglocationonfield.Z()),Rotation3d(0,0,cameraZangle) )
+
+    print(f" camera pose in FCS absolutecoords  {cam_fcs_abs} ")
+
 # process_apriltag will get Id of Tag
 # gets pixel center (not needed except for testing?)
 # gets hamming distance (not needed except for testing?)
@@ -253,7 +294,7 @@ def main():
     filename7 = 'ownimages/capture300.jpg'
     filename8 = 'ownimages/capture455.jpg'
 
-    fileToUse = filename2
+    fileToUse = filename1
     print(f"Filename is {fileToUse}")
     #field coords of tag 1
     # tag1_x_inches = mToInches(15.513558)   # orig in meters and multiply by 39.3701 inches per meter to get inches
@@ -326,12 +367,12 @@ def main():
     actualImageCenter = width/2.0
     bestCenterDistance = 99999 # image center nearest middle should be closest value, start big
     bestTag=0
-    bestPose=0
+    bestPose=Pose3d()
     for result in results:
         if math.fabs( result[0].getCenter().x  - actualImageCenter ) < bestCenterDistance :
             bestCenterDistance = math.fabs( float(result[0].getCenter().x ) - actualImageCenter )
             bestTag=result[0]
-            bestPose=  result[1]     
+            bestPose=  result[1]   
     
     #tagOfInterest = 0 # i think 1st is closest to center ?
     # tag1_pose = ourfield.getTagPose(1)  
@@ -340,9 +381,16 @@ def main():
     # print ('tag_info[0] type is ' + str(type(tag_info[0])))
     best_tagid = bestTag.getId()
     print(f"Found best tag {best_tagid} at pose {bestPose}")
-    tagN_pose = ourfield.getTagPose(best_tagid)  
-    print(f"json file says tag {best_tagid} is at {tagN_pose}")
+    known_tagN_pose = ourfield.getTagPose(best_tagid)  
+    print(f"json file says tag {best_tagid} is at {known_tagN_pose}")
    
+    # est.pose1 is actually a Transform3d so get it's translation and rotation
+
+    tag_posrot = bestPose.rotation()
+    tag_postransl = bestPose.translation() 
+    tag_pos = Pose3d(tag_postransl,tag_posrot)
+    tagposeToCameraPosition(tag_pos, best_tagid ,known_tagN_pose)
+
     # if we transform tag loc by pose first:
     #transform3d_pose = Transform3d(tag1_pose.Translation3d(),tag1_pose.Rotation3d()  )
     #posrot = pose.getRotation(); # should work
@@ -394,16 +442,16 @@ and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
     # but we need location of camera in tag frame which is inverse of est.pose1
     
     # tag in camera frame rotation and translation are:
-    print(f"tagpose: {bestPose}")
-    tag_posrot = bestPose.rotation()
-    tag_postransl = bestPose.translation() 
+    # print(f"tagpose: {bestPose}")
+    # tag_posrot = bestPose.rotation()
+    # tag_postransl = bestPose.translation() 
     # camera in tag frame are found:
     # inverse or Transpose of the rotation are same , which is what we need
-    cam_posrot = -tag_posrot # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
+    # cam_posrot = -tag_posrot # https://first.wpi.edu/wpilib/allwpilib/docs/development/cpp/classfrc_1_1_rotation3d.html
     # and inverse of cam2tag gives us tag2cam (gives us cam in tag frame)
-    cam_postransl = -tag_postransl
-    campose=Pose3d(cam_postransl,cam_posrot)
-    print(f"campose: {campose}")
+    # cam_postransl = -tag_postransl
+    # campose=Pose3d(cam_postransl,cam_posrot)
+    # print(f"campose: {campose}")
     # you would send to drive estimator as: see https://docs.photonvision.org/en/latest/docs/examples/simposeest.html
     #m_poseEstimator.addVisionMeasurement(camPose.transformBy(Constants.kCameraToRobot).toPose2d(), imageCaptureTime)
     # for now     
@@ -417,7 +465,7 @@ and Pose_T we get from the Apriltags. R is an orthogonal rotation matrix,
     #newtranslation2 =  tag1_pose.translation() - est.pose1.translation() # math works but we didnt unwrap xyz into parallel axis (need to transform first)
     #print(f"newtranslation {newtranslation2}") # yielded newtranslation Translation3d(x=14.920262, y=0.739627, z=-0.461606) which was wrong
 
-    testpose3 = Pose3d(Translation3d(5,6,7), Rotation3d(0,0,0))
+    #testpose3 = Pose3d(Translation3d(5,6,7), Rotation3d(0,0,0))
 
 
     # capture_window_name = 'Capture Window'

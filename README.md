@@ -13,10 +13,10 @@ that page gives:
 Field Coordinate System
 The field coordinate system (or global coordinate system) is an absolute coordinate system where a point on the field is designated as the origin. Positive 
  (theta) is in the counter-clockwise direction, and the positive x-axis points away from your alliance’s driver station wall, and the positive y-axis is perpendicular and to the left of the positive x-axis.
-?? I actually think FCS is absolute, blue wall is near origin, and redwall is about 20 meters in positive X direction. CORRECT This if found different. One factor that agrees is the photonvision botpose which is compat with WPIlib (not all of photonvision coords are though.)
+If you don't use the field flip API calls, then FCS is absolute, blue wall is near origin, and redwall is about 20 meters in positive X direction.  One factor that agrees is the photonvision botpose which is compat with WPIlib (not all of photonvision coords are though.)
+
 Robot Coordinate System
-The robot coordinate system (or local coordinate system) is a relative coordinate system where the robot is the origin. The direction the robot is facing is the positive x axis, and the positive y axis is perpendicular, to the left of the robot. Positive 
- is counter-clockwise.
+The robot coordinate system (or local coordinate system) is a relative coordinate system where the robot is the origin. The direction the robot is facing is the positive x axis, and the positive y axis is perpendicular, to the left of the robot. Positive rotation in Yaw or Z axis is counter-clockwise.
 Note WPILib’s Gyro class is clockwise-positive, so you have to invert the reading in order to get the rotation with either coordinate system.
 
 WPIlib coord system agrees with:
@@ -27,6 +27,13 @@ East side has the Red Alliance drive stations. +X is toward Red alliance from Bl
 West side has the Blue Alliance drive stations.
 origin 0,0 of the WPILib field 2023-chargedup.json file is at bottom left of this, aka South West corner.
 
+April Tag Coordinate system: This is a third coordinate system! 
+When you estimate pose of a tag, you get the tag's facing angles aka Rotation, and you get XYZ coords of the tag relative to the camera's Plane.
+The Coordinates of tag pose are Right hand rule, Z out of camera toward tag, X is to right of camera view, Y is downward, until pose of tag turned into a useful translation.
+And Y angle is actually the angle to the tag from the camera. This could be turned into YAW easily, but you should remove pitch first.
+Note because Y points down almost into into earth in the April tag coordinate System, positive Y angle is in clockwise direction, opposite from Field coordinate system. But Note that if the X angle is not close to zero, then there will be some error if you just use the Y rotation as the bearing to target. In Code I will try to explain this.
+
+remember pose of object is camera relative at first until it's been transformed / transposed it to field, as i undestand.
 
 Field size 
 per the rules update 4
@@ -43,6 +50,7 @@ A reminder on the location of the various IDs on the field:
 ID 1,2,3,4 are on Red drive station side,  1,2,3,4 right to left.
 ID 5,6,7,8 are on blue drive station side,  5,6,7,8 right to left.
 This means tag 8 and tag 1 are on same side of field, the scoring table side.
+Tag 8 is closest to the origin if you dont field flip the Field Coordinate System.
 And Tags 4 and 5 are on same side of field, the audience side of field.
 Tags 1,2,3,6,7,8 are approx 15.1" off ground to bottom of 6" tag, so center is 18.1" above floor.
 Tags 4 and 5 are approx 24.4" off ground to bottom of 6" tag, so center of tag is 27.4" above floor.
@@ -54,9 +62,6 @@ NOTE outer grids are assymetrical, tag is NOT in the middle of outer grids.
 
 # Coord system confusion
 
-remember pose of object is camera relative at first until it's been transformed / transposed it to field, as i undestand.
-coords of pose are Right hand rule, Z out of camera toward tag, X is to right of camera view, Y is downward, until pose of tag turned into a useful translation.
-And Y angle is actually the angle to the tag from the camera. This could be turned into YAW easily.
 
 It seems Field Coordinates do flip for red team per:
 https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/coordinate-systems.html 
