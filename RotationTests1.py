@@ -72,7 +72,7 @@ The tag Y angle is 45 deg (pi/4 radians = 0.785398).
 Then  the tag pose estimate if we used april tags should be (0,0,2.82) tag_atc_rel (tag in april tag coords, relative)
 and tag pose angle should be (0,+pi/4,0) .
 Now if you reverse this into Camera pose in the tag's frame (wrt tag location as origin)
-camera pose location: (0,0,-2.82) and angles would be (0,-pi/4,0)  cam_atc_rel 
+camera pose location: (0,0,-2.82) (apriltagcoords) and angles would be (0,-pi/4,0)  cam_atc_rel 
 We used a .relativeTo() call to move from Apriltagcoords to FCS coordinate system 
 results in xyz of (2,0,2)
 and we remap xyz properly  april tag coord -> FCS coord as X->Y, Y-> -Z, Z-> -X 
@@ -81,7 +81,7 @@ finally if the tag in this test case 101 was tag 8, then the location of the cam
 would be (x=1.027430, y=1.071626, z=0.462788) you add (2,2,0) to that you get:
 camera absolute coords in field coord system: (3.02,3.07,0) cam_fcs_abs
 And the poseof the camera in FCS coords is (3.02,3.07,0) with 
-rotation angle of (x=0.000000, y=0.000000, z=3.9269908) , note z=-2.356194 is acceptable as it is same as 3.92rads
+rotation angle of (x=0.000000, y=0.000000, z=3.9269908 radians) , note z=-2.356194 rads is acceptable as it is same as 3.92rads
 
 '''
 
@@ -113,8 +113,9 @@ def tagposeToCameraPosition(tagpose, tag_id ,taglocationonfield):
     # why are they 2x magntitude?
     # remap xyz properly  april tag coord -> FCS coord as X->Y, Y-> -Z, Z-> -X 
     # divide by 2.0 as magitude returned by relativeTo was wrong, keep in mind if they fix it one day
+    # in reality seems these assignments/sign corrections work.
     x = -temppose.Z()/2.0
-    y = -temppose.X()/2.0
+    y = temppose.X()/2.0
     z = -temppose.Y()/2.0 
     # and facing of camera in case 101 is pi + pi/4 or said different way,
     # facing of camera is tag 8 Z angle plus 180deg minus our campose y angle.
@@ -161,7 +162,7 @@ def main():
     # remap xyz properly  april tag coord -> FCS coord as X->Y, Y-> -Z, Z-> -X 
     # divide by 2.0 as magitude returned by relativeTo was wrong, keep in mind if they fix it one day
     x = -temppose.Z()/2.0
-    y = -temppose.X()/2.0
+    y = temppose.X()/2.0
     z = -temppose.Y()/2.0 
     # and facing of camera in case 101 is pi + pi/4 or said different way,
     # facing of camera is tag 8 Z angle plus 180deg minus our campose y angle.

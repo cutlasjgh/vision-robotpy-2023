@@ -152,8 +152,9 @@ def tagposeToCameraPosition(tagpose, tag_id ,taglocationonfield):
     # why are they 2x magntitude?
     # remap xyz properly  april tag coord -> FCS coord as X->Y, Y-> -Z, Z-> -X 
     # divide by 2.0 as magitude returned by relativeTo was wrong, keep in mind if they fix it one day
+    # in reality seems these assignments/sign corrections work.
     x = -temppose.Z()/2.0
-    y = -temppose.X()/2.0
+    y = temppose.X()/2.0
     z = -temppose.Y()/2.0 
     # and facing of camera in case 101 is pi + pi/4 or said different way,
     # facing of camera is tag 8 Z angle plus 180deg minus our campose y angle.
@@ -295,7 +296,14 @@ def main():
     filename7 = 'ownimages/capture300.jpg'
     filename8 = 'ownimages/capture455.jpg'
 
-    fileToUse = filename1
+    filename11 = 'ownimages/capture601.jpg' # tag 7 +2.5m from tag , direct in front. 
+    filename12 = 'ownimages/capture602.jpg' # tag 7 +2.5m in X from , +1m in Y tag (to right of tag), pointed directly at. 
+    filename13 = 'ownimages/capture603.jpg' # tag 7 +2.5m in X from , +1m in Y tag , not pointed directly at, pointed straight at wall, so angles should be almost in line
+    # capture604 tag 7 FCS coords location +1.5m in X from , +1m in Y tag (to right of tag), not pointed directly at
+    # pointed about 1/2 the angle toward target,  half at target, half toward wall
+    filename14 = 'ownimages/capture604.jpg' 
+
+    fileToUse = filename12
     print(f"Filename is {fileToUse}")
     #field coords of tag 1
     # tag1_x_inches = mToInches(15.513558)   # orig in meters and multiply by 39.3701 inches per meter to get inches
