@@ -192,7 +192,8 @@ def main():
     # load field layout
     global ourfield
     ourfield = robotpy_apriltag.AprilTagFieldLayout(r'2023-chargedup.json')
-    robotpy_apriltag.AprilTagFieldLayout.OriginPosition(2)
+    # still need to prove this setorigin stuff
+    #robotpy_apriltag.AprilTagFieldLayout.OriginPosition(2)
     detector, estimator = get_apriltag_detector_and_estimator((resolution))
     #detector, estimator = get_apriltag_detector_and_estimator((1080,1920))
     #detector, estimator = get_apriltag_detector_and_estimator((1280,720))
