@@ -18,6 +18,8 @@ Field Coordinate System
 The field coordinate system (or global coordinate system) is an absolute coordinate system where a point on the field is designated as the origin. Positive 
  (theta) is in the counter-clockwise direction, and the positive x-axis points away from your alliance’s driver station wall, and the positive y-axis is perpendicular and to the left of the positive x-axis.
 If you don't use the field flip API calls, then FCS is absolute, blue wall is near origin, and redwall is about 20 meters in positive X direction.  One factor that agrees is the photonvision botpose which is compat with WPIlib (not all of photonvision coords are though.)
+**If you do flip the field with setOrigin call then the origin is moved to Red Alliance side, nearest Audience, and Y increases toward scoring table, thereby keeping right hand rule valid. I proved this is the case by 
+using the robotpy_apriltag.AprilTagFieldLayout(r'2023-chargedup.json').getTagPose(tag_id) type of printing of that tag's location on field.
 
 Robot Coordinate System
 The robot coordinate system (or local coordinate system) is a relative coordinate system where the robot is the origin. The direction the robot is facing is the positive x axis, and the positive y axis is perpendicular, to the left of the robot. Positive rotation in Yaw or Z axis is counter-clockwise.

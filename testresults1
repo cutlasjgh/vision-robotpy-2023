@@ -237,3 +237,295 @@ Point(x=184.2924948984576, y=230.51743501177913)
 Tag ID: 7 Pose: Transform3d(Translation3d(x=-0.408528, y=0.061202, z=1.771221), Rotation3d(x=-0.048734, y=0.441873, z=-0.049342))
 
 ----------------
+
+looking at tag id 2 directly, +1.5m,+1mtoright,0m (had to add or subtr x and y relative from known field tag loc based on tag facing)
+
+for tag 2
+campose FCS relcoords (1.432,1.144,-0.059) and  FCS abscoords (14.081,1.604,0.404) angledeg is 36.34058087183221
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+for tag 7
+campose FCS relcoords (1.478,1.087,-0.050) and  FCS abscoords (2.506,3.835,0.413) angledeg is 214.19946617451927
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+-----------
+and tag 2 when camera to left of tag +1.5m +1mtoleft,0m
+campose FCS relcoords (1.514,-0.989,-0.070) and  FCS abscoords (14.000,3.737,0.392) angledeg is 150.07572410370696
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+campose FCS relcoords (1.504,-1.011,-0.058) and  FCS abscoords (2.531,1.737,0.405) angledeg is 149.17014738876205
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+these last 2 tests seem correct, but the fcs relcoord sign on Y is wrong sometimes, but code checks on tag actual facing fix it when it turns into absol coords.
+
+--------
+setting originpossition bluewallrightside tag 2 when approx away in X 1.5m and left 1m  from tag 2
+campose FCS relcoords (1.471,-0.815,0.049) and  FCS abscoords (14.043,3.563,0.512) angledeg is 145.96866740075706
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+and when redwallrightside tag 2
+campose FCS relcoords (1.304,-0.346,0.049) and  FCS abscoords (2.333,4.919,0.512) angledeg is 160.70545732866407
+json file says tag 2 is at Pose3d(Translation3d(x=1.028192, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+above  looks good  but below is wrong in X for tag 7
+and for tag 7 when 1.5,1 to right and red alliance
+campose FCS relcoords (1.456,1.084,-0.032) and  FCS abscoords (16.970,6.349,0.431) angledeg is 39.44807292429701
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+and when blue
+campose FCS relcoords (1.452,1.090,-0.026) and  FCS abscoords (2.479,3.838,0.437) angledeg is 39.70240386158329
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+----------
+
+and for tag 7 when 1.5,1 to right and red alliance
+campose FCS relcoords (1.159,0.804,0.048) and  FCS abscoords (14.355,BAD6.069,0.511) angledeg is 39.00200263066264
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+and when blue
+campose FCS relcoords (1.163,0.794,0.048) and  FCS abscoords (2.190,3.542,0.510) angledeg is 38.619755027991005
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+for tag 2 when 1.5,1 to right and red alliance
+campose FCS relcoords (1.176,0.785,-0.039) and  FCS abscoords (2.204,6.051,0.424) angledeg is 38.271193667796915
+json file says tag 2 is at Pose3d(Translation3d(x=1.028192, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+and when blue 
+campose FCS relcoords (1.196,0.756,-0.046) and  FCS abscoords (14.317,BAD3.504,0.416) angledeg is 36.826443079377384
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+------- 
+and for tag 7 when 1.5,1 to right and red alliance
+campose FCS relcoords (1.213,0.717,0.020) and  FCS abscoords (14.301,BAD5.983,0.483) angledeg is 35.11024392122394
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+
+and when blue
+campose FCS relcoords (1.219,0.707,0.028) and  FCS abscoords (2.246,3.455,0.491) angledeg is 34.65324549204875
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+for tag 2 when 1.5,1 to right and red alliance
+campose FCS relcoords (1.197,0.750,-0.051) and  FCS abscoords (2.225,6.016,0.412) angledeg is 36.60524139495189
+json file says tag 2 is at Pose3d(Translation3d(x=1.028192, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+and when blue 
+campose FCS relcoords (1.217,0.727,-0.064) and  FCS abscoords (14.297,BAD3.475,0.399) angledeg is 35.39014066316044
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+red and to left of tag 7 
+campose FCS relcoords (1.281,-0.537,-0.010) and  FCS abscoords (14.233,BAD4.729,0.452) angledeg is -37.10289093140114
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+blue to left of tag 2
+campose FCS relcoords (1.241,-0.624,-0.003) and  FCS abscoords (14.273,BAD2.124,0.460) angledeg is 138.71699645185575
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+
+---------------------------------------------------------------------------------------------------------s
+doing ++ -- math in conditional
+and for tag 7 when 1.5,1 to right and red alliance
+
+
+and when blue
+
+
+for tag 2 when 1.5,1 to right and red alliance
+
+
+and when blue 
+
+
+red and to left of tag 7 
+
+
+blue to left of tag 2
+Blue campose FCS relcoords (1.237,-0.628,0.004) and  FCS abscoords (14.277,3.376,0.467) angledeg is 138.47893725499605
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+
+---------------------------------------------------------------------------------------------------------
+
+and for tag 7 when 1.5,1 to right and red alliance
+Red campose FCS relcoords (1.167,0.707,0.014) and  FCS abscoords (14.347,BAD5.973,0.477) angledeg is 33.97413266037842 good
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+
+
+and when blue
+Blue campose FCS relcoords (1.178,0.694,0.031) and  FCS abscoords (2.206,3.442,0.494) angledeg is 33.28987158810211 BAD
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+for tag 7 to left
+when red
+Red campose FCS relcoords (1.325,-0.568,-0.020) and  FCS abscoords (14.189,BAD4.698,0.442) angledeg is -40.50743009612555 GOOD
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+
+when blue 
+Blue campose FCS relcoords (1.324,-0.569,-0.022) and  FCS abscoords (2.351,2.179,0.441) angledeg is 139.43066835985246 Good
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+
+for tag 2 when 1.5,1 to right and red alliance
+Red campose FCS relcoords (1.183,0.687,-0.042) and  FCS abscoords (2.211,5.953,0.421) angledeg is 33.00665137957055 bad
+json file says tag 2 is at Pose3d(Translation3d(x=1.028192, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+and when blue 
+Blue campose FCS relcoords (1.179,0.692,-0.044) and  FCS abscoords (14.335,BAD3.440,0.419) angledeg is 33.24617784864226 good
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+
+red and to left of tag 2
+Red campose FCS relcoords (1.234,-0.632,0.011) and  FCS abscoords (2.262,4.633,0.474) angledeg is 138.20524280568566 good
+json file says tag 2 is at Pose3d(Translation3d(x=1.028192, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+blue to left of tag 2
+Blue campose FCS relcoords (1.237,-0.629,0.006) and  FCS abscoords (14.276,BAD2.119,0.469) angledeg is 138.40208547668445 bad
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+---------------------------------------------------------------------------------------------------------
+
+and for tag 7 when 1.5,1 
+and when red to right of tag 7 
+Red campose FCS relcoords (1.175,0.675,0.033) and  FCS abscoords (14.339,4.591,0.496) angledeg is 29.82358759334661 good
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+
+
+and when blue to right of tag 7 
+Blue campose FCS relcoords (1.172,0.677,0.034) and  FCS abscoords (2.200,3.425,0.497) angledeg is 209.95715447025862 good
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+and when red to left  of tag 7 
+Red campose FCS relcoords (1.248,-0.587,-0.013) and  FCS abscoords (14.266,5.853,0.450) angledeg is 322.1988883309768 good
+json file says tag 7 is at Pose3d(Translation3d(x=15.514320, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=-3.141593))
+
+
+and when blue to left  of tag 7 
+Blue campose FCS relcoords (1.229,-0.589,-0.008) and  FCS abscoords (2.257,2.159,0.455) angledeg is 138.80709708916072 good
+json file says tag 7 is at Pose3d(Translation3d(x=1.027430, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+for tag 2 when 1.5,1 to right 
+and when red to right of tag 2 
+Red campose FCS relcoords (1.159,0.685,-0.060) and  FCS abscoords (2.187,5.950,0.403) angledeg is 218.08487771493935 good
+json file says tag 2 is at Pose3d(Translation3d(x=1.028192, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+and when blue to right of tag 2 
+Blue campose FCS relcoords (1.155,0.690,-0.058) and  FCS abscoords (14.359,2.058,0.405) angledeg is 38.37837444456357 good
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+
+and when red to left  of tag 2 
+Red campose FCS relcoords (1.174,-0.736,0.012) and  FCS abscoords (2.202,4.530,0.474) angledeg is 136.24188051395961  good
+json file says tag 2 is at Pose3d(Translation3d(x=1.028192, y=5.265674, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=0.000000))
+
+
+and when blue to left  of tag 2
+Blue campose FCS relcoords (1.171,-0.738,0.013) and  FCS abscoords (14.342,3.486,0.476) angledeg is 316.1003962118547 good
+json file says tag 2 is at Pose3d(Translation3d(x=15.513558, y=2.748026, z=0.462788), Rotation3d(x=0.000000, y=0.000000, z=3.141593))
+
+ALL GOOD we are go.
+
+---------------------------------------------------------------------------------------------------------
+
+and for tag 7 when 1.5,1 
+and when red to right of tag 7 
+
+
+and when blue to right of tag 7 
+
+
+and when red to left  of tag 7 
+
+
+and when blue to left  of tag 7 
+
+
+for tag 2 when 1.5,1 to right 
+and when red to right of tag 2 
+
+
+and when blue to right of tag 2 
+
+
+and when red to left  of tag 2 
+
+
+and when blue to left  of tag 2
+---------------------------------------------------------------------------------------------------------
+
+and for tag 7 when 1.5,1 
+and when red to right of tag 7 
+
+
+and when blue to right of tag 7 
+
+
+and when red to left  of tag 7 
+
+
+and when blue to left  of tag 7 
+
+
+for tag 2 when 1.5,1 to right 
+and when red to right of tag 2 
+
+
+and when blue to right of tag 2 
+
+
+and when red to left  of tag 2 
+
+
+and when blue to left  of tag 2
+---------------------------------------------------------------------------------------------------------
+
+and for tag 7 when 1.5,1 
+and when red to right of tag 7 
+
+
+and when blue to right of tag 7 
+
+
+and when red to left  of tag 7 
+
+
+and when blue to left  of tag 7 
+
+
+for tag 2 when 1.5,1 to right 
+and when red to right of tag 2 
+
+
+and when blue to right of tag 2 
+
+
+and when red to left  of tag 2 
+
+
+and when blue to left  of tag 2
+---------------------------------------------------------------------------------------------------------
+
+and for tag 7 when 1.5,1 
+and when red to right of tag 7 
+
+
+and when blue to right of tag 7 
+
+
+and when red to left  of tag 7 
+
+
+and when blue to left  of tag 7 
+
+
+for tag 2 when 1.5,1 to right 
+and when red to right of tag 2 
+
+
+and when blue to right of tag 2 
+
+
+and when red to left  of tag 2 
+
+
+and when blue to left  of tag 2
